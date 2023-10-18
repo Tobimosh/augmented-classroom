@@ -29,7 +29,7 @@ const ClassAudio = () => {
       </div>
 
       <div className="h-[100vh] flex justify-center items-center">
-        <img src="/src/assets/audio.jpg" alt="" />
+        <img src="/audio.jpg" alt="" />
       </div>
     </>
   );
