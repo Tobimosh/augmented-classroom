@@ -26,7 +26,7 @@ const Attendance = () => {
   const [, setData] = useState(null);
   const [, setError] = useState("");
   const [page, setPage] = useState("attendance");
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   const handleFormSubmit = async (formData: FieldValues) => {
     console.log(formData);
