@@ -42,7 +42,7 @@ const Attendance = () => {
       console.log(registrationResponse);
 
       await axios.post(
-        "https://augumented-classroom.onrender.com/verify-registration-response?username=21CG029882",
+        "https://augumented-classroom.onrender.com/verify-registration-response?matric_number=21CG029882",
         registrationResponse
       );
 
@@ -54,7 +54,7 @@ const Attendance = () => {
   const handleAuthentication = async () => {
     try {
       const response = await axios.get(
-        `https://augumented-classroom.onrender.com/generate-authentication-options?username=21CG029882`
+        `https://augumented-classroom.onrender.com/generate-authentication-options?matric_number=21CG029882`
       );
 
       const authenticationOptions = JSON.parse(response.data);
@@ -67,7 +67,7 @@ const Attendance = () => {
       console.log(authenticationResponse);
 
       await axios.post(
-        "https://augumented-classroom.onrender.com/verify-authentication-response?username=21CG029882",
+        "https://augumented-classroom.onrender.com/verify-authentication-response?matric_number=21CG029882",
         authenticationResponse
       );
 
