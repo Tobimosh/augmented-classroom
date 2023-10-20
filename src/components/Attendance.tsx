@@ -25,16 +25,14 @@ const Attendance = () => {
   } = useForm<FormData>({ resolver: zodResolver(schema), mode: "onBlur" });
   const [, setData] = useState(null);
   const [, setError] = useState("");
-  const [page, setPage] = useState("attendance")
-
+  const [page, setPage] = useState("attendance");
+  const [loading, setLoading] = useState(false);
 
   const handleFormSubmit = async (formData: FieldValues) => {
     console.log(formData);
 
     try {
-      const response = await axios.get(
-        `https://webauthn-backend.onrender.com/generate-registration-options?username=${formData.username}`
-      );
+      const response = await axios.get('https://augumented-classroom.onrender.com/generate-registration-options?matric_number=21CG029882')
 
       const registrationOptions = JSON.parse(response.data);
       console.log(registrationOptions);
@@ -44,7 +42,7 @@ const Attendance = () => {
       console.log(registrationResponse);
 
       await axios.post(
-        "https://webauthn-backend.onrender.com/verify-registration-response",
+        "https://augumented-classroom.onrender.com/verify-registration-response?username=21CG029882",
         registrationResponse
       );
 
@@ -56,7 +54,7 @@ const Attendance = () => {
   const handleAuthentication = async () => {
     try {
       const response = await axios.get(
-        `https://webauthn-backend.onrender.com/generate-authentication-options`
+        `https://augumented-classroom.onrender.com/generate-authentication-options?username=21CG029882`
       );
 
       const authenticationOptions = JSON.parse(response.data);
@@ -69,7 +67,7 @@ const Attendance = () => {
       console.log(authenticationResponse);
 
       await axios.post(
-        "https://webauthn-backend.onrender.com/verify-authentication-response",
+        "https://augumented-classroom.onrender.com/verify-authentication-response?username=21CG029882",
         authenticationResponse
       );
 
@@ -83,11 +81,10 @@ const Attendance = () => {
 
   const handleBackButton = () => {
     setPage("services");
- 
-      };
-     if (page === "services") {
-           return <Services />;
-         }
+  };
+  if (page === "services") {
+    return <Services />;
+  }
 
   return (
     <>
