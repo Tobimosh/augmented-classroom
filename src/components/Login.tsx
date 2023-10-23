@@ -12,7 +12,7 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-const Form = () => {
+const Login = () => {
   const {
     register,
     handleSubmit,
@@ -111,4 +111,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default Login;
