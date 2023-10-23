@@ -1,10 +1,8 @@
-// import Form from "./components/Attendance"
-// import LectureSlides from "./components/LectureSlides"'
 import { Route, Routes } from "react-router-dom";
 import SignUp from "./components/SignUp";
 import Form from "./components/Login";
 import Services from "./components/Services";
-// import Services from "./components/Services"
+import LectureSlides from "./components/LectureSlides";
 
 const App = () => (
   <div>
@@ -12,11 +10,8 @@ const App = () => (
       <Route path="/sign-up" element={<SignUp />} />
       <Route path="/log-in" element={<Form />} />
       <Route path="/services" element={<Services />} />
-      
+      <Route path="/lecture-slides" element={<LectureSlides />} />
     </Routes>
-    {/* <LectureSlides/> */}
-    {/* <Services/> */}
-    {/* <Form/> */}
   </div>
 );
 
