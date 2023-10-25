@@ -3,7 +3,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import axios from "axios";
-import LoginPage from "./Login"; // Import your login page component
+import LoginPage from "./Login";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Modal, Box, Typography } from "@mui/material";
