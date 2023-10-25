@@ -19,7 +19,7 @@ const Services = () => {
     setServices('classAudio')
   }
   const handleBackButton = () => {
-    setServices("home")
+    setServices("login")
   }
 
   if (service === "attendance") {
@@ -28,7 +28,7 @@ const Services = () => {
   if (service === "classAudio") {
     return <ClassAudio/>
   }
-  if(service === "home"){
+  if(service === "login"){
     return <Login/>
   }
 
