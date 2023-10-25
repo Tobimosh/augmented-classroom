@@ -57,6 +57,11 @@ const SignUp = () => {
       })
       .catch((error) => {
         console.error("Error occurred during registration:", error);
+        if (error.response) {
+          console.error("Error response data:", error.response.data);
+        } else {
+          console.error("No response received from the server.");
+        }
       })
       .finally(() => {
         setIsLoading(false);
