@@ -119,9 +119,9 @@ const SignUp = () => {
                 Sign Up
               </button>
             </div>
-            <div className="flex items-end text-xs">
+            <div className="flex items-end text-sm">
               <span className="mr-2">Have an account?</span>
-              <Link to="/log-in" className="text-red-300">
+              <Link to="/log-in" className="text-red-500">
                 Log in
               </Link>
             </div>
