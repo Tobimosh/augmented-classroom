@@ -73,7 +73,7 @@ const SignUp = () => {
     setIsModalOpen(false);
   };
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   return (
     <div className="flex justify-center h-[100vh] items-center">
