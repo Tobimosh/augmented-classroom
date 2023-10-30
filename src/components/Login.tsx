@@ -6,12 +6,26 @@ import axios from "axios";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import Services from "./Services";
+import { Box, Modal, Typography } from "@mui/material";
 
 
 const schema = z.object({
   matric_number: z.string().min(3),
   password: z.string().min(7),
 });
+
+  const style = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+    borderRadius: 3,
+  };
 
 type FormData = z.infer<typeof schema>;
 
@@ -25,7 +39,9 @@ const Login = () => {
 
   // const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
 
 
   const handleFormSubmit = (formData: FieldValues) => {
@@ -37,9 +53,11 @@ const Login = () => {
           const token = response.data.token;
           console.log(token);
           console.log("Login successful");
-          setIsLoggedIn(true); // Set the login status to true
-          localStorage.setItem("isLoggedIn", "true");
           setIsLoggedIn(true);
+                    setIsModalOpen(true);
+
+          localStorage.setItem("isLoggedIn", "true");
+          setIsLoggedIn(false);
         }
       })
       .catch((err) => {
@@ -51,6 +69,8 @@ const Login = () => {
 
     console.log(formData);
     reset();
+
+   
   };
 
 
@@ -61,14 +81,16 @@ const Login = () => {
     }
   }, []);
 
+   const handleClose = () => {
+     setIsModalOpen(false);
+   };
 
-  // if (isSubmitted) {
-  //   return <Services/>;
-  // }
+
+
 
   return (
     <>
-      {/* {!isLoggedIn && ( */}
+      {isLoggedIn && (
         <div className=" flex justify-center h-[100vh]  items-center">
           <div className="flex items-center gap-10 bg-red-100">
             <form
@@ -124,7 +146,7 @@ const Login = () => {
             </div>
           </div>
         </div>
-      {/* )} */}
+      )}
       {isLoading && (
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -133,8 +155,25 @@ const Login = () => {
           <CircularProgress color="inherit" />
         </Backdrop>
       )}
-  
-      {isLoggedIn && <Services />}
+      {isModalOpen && (
+        <Modal
+          open={isModalOpen}
+          onClose={() => {
+            // navigate("log-in");
+            handleClose();
+          }}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              Log in successful
+            </Typography>
+          </Box>
+        </Modal>
+      )}
+      {!isLoggedIn && <Services />}
     </>
   );
 };
