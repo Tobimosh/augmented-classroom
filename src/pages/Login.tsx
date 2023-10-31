@@ -6,25 +6,13 @@ import axios from "axios";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import Services from "./Services";
-import { Box, Modal, Typography } from "@mui/material";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 const schema = z.object({
   matric_number: z.string().min(3),
   password: z.string().min(7),
 });
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-  borderRadius: 3,
-};
 
 type FormData = z.infer<typeof schema>;
 
@@ -39,9 +27,30 @@ const Login = () => {
   // const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [formData, setFormData] = useState<FormData>({
+    matric_number: "",
+    password: "",
+  });
+
+  const notify = () =>
+    toast.success("🦄 Wow so easy!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
 
   const handleFormSubmit = (formData: FieldValues) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      ...formData,
+    }));
+
     setIsLoading(true);
     axios
       .post("https://augmented-classroom.onrender.com/verify-student", formData)
@@ -50,8 +59,24 @@ const Login = () => {
           const token = response.data.token;
           console.log(token);
           console.log("Login successful");
+          notify();
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />;
+          {
+            /* Same as */
+          }
+          <ToastContainer />;
           setIsLoggedIn(true);
-          setIsModalOpen(true);
 
           localStorage.setItem("isLoggedIn", "true");
           setIsLoggedIn(false);
@@ -74,10 +99,6 @@ const Login = () => {
       setIsLoggedIn(true);
     }
   }, []);
-
-  const handleClose = () => {
-    setIsModalOpen(false);
-  };
 
   return (
     <>
@@ -146,24 +167,8 @@ const Login = () => {
           <CircularProgress color="inherit" />
         </Backdrop>
       )}
-      {isModalOpen && (
-        <Modal
-          open={isModalOpen}
-          onClose={() => {
-            // navigate("log-in");
-            handleClose();
-          }}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Log in successful
-            </Typography>
-          </Box>
-        </Modal>
-      )}
-      {!isLoggedIn && <Services />}
+
+      {!isLoggedIn && <Services num={formData.matric_number} />}
     </>
   );
 };
