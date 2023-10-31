@@ -6,16 +6,17 @@ interface Props {
 
 const Card = ({ name, imageUrl }: Props) => {
   return (
-    <div className="max-w-xl mx-auto bg-white  rounded-lg overflow-hidden shadow-lg ">
-      <div className="h-full">
-        <img src={imageUrl} alt={name} className="w-full h-2/3 object-cover" />
+    <div className="w-lg  bg-white h-[400px] flex flex-col justify-between rounded-lg  shadow-lg ">
+      <div className="flex flex-col justify-between h-full">
+        <img src={imageUrl} alt={name} className="h-2/3 flex-grow w-full object-cover " />
 
         <div className="">
-          <button className="block w-full bg-red-100 py-3 text-2xl">
+          <button className=" w-full bg-red-100 py-3 text-2xl">
             {name}
           </button>
         </div>
       </div>
+    
     </div>
   );
 };

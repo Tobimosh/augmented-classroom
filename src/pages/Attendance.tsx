@@ -32,7 +32,9 @@ const Attendance = () => {
     console.log(formData);
 
     try {
-      const response = await axios.get('https://augumented-classroom.onrender.com/generate-registration-options?matric_number=21CG029882')
+      const response = await axios.get(
+        "https://augumented-classroom.onrender.com/generate-registration-options?matric_number=21CG029882"
+      );
 
       const registrationOptions = JSON.parse(response.data);
       console.log(registrationOptions);
@@ -132,7 +134,6 @@ const Attendance = () => {
             </button>
           </div>
         </form>
-
       </div>
     </>
   );

@@ -1,10 +1,11 @@
 import { Route, Routes } from "react-router-dom";
-import SignUp from "./components/SignUp";
-import Login from "./components/Login";
-import Services from "./components/Services";
+import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
+import Services from "./pages/Services";
 import LectureSlides from "./components/LectureSlides";
-import ClassAudio from "./components/ClassAudio";
-import Attendance from "./components/Attendance";
+import ClassAudio from "./pages/ClassAudio";
+import Attendance from "./pages/Attendance";
+import "./App.css"
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/class-audio" element={<ClassAudio />} />
         <Route path="/attendance" element={<Attendance />} />
       </Routes>
+
     </div>
   );
 };

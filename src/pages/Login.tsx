@@ -8,24 +8,23 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Services from "./Services";
 import { Box, Modal, Typography } from "@mui/material";
 
-
 const schema = z.object({
   matric_number: z.string().min(3),
   password: z.string().min(7),
 });
 
-  const style = {
-    position: "absolute" as "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-    borderRadius: 3,
-  };
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+  borderRadius: 3,
+};
 
 type FormData = z.infer<typeof schema>;
 
@@ -42,8 +41,6 @@ const Login = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-
-
   const handleFormSubmit = (formData: FieldValues) => {
     setIsLoading(true);
     axios
@@ -54,7 +51,7 @@ const Login = () => {
           console.log(token);
           console.log("Login successful");
           setIsLoggedIn(true);
-                    setIsModalOpen(true);
+          setIsModalOpen(true);
 
           localStorage.setItem("isLoggedIn", "true");
           setIsLoggedIn(false);
@@ -69,10 +66,7 @@ const Login = () => {
 
     console.log(formData);
     reset();
-
-   
   };
-
 
   useEffect(() => {
     const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
@@ -81,12 +75,9 @@ const Login = () => {
     }
   }, []);
 
-   const handleClose = () => {
-     setIsModalOpen(false);
-   };
-
-
-
+  const handleClose = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <>
@@ -166,7 +157,6 @@ const Login = () => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               Log in successful
             </Typography>

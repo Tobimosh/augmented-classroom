@@ -3,16 +3,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Services from "./Services";
 import { useState } from "react";
 
-
 const ClassAudio = () => {
-  const [page, setPage] = useState("classaudio")
+  const [page, setPage] = useState("classaudio");
 
-    const handleBackButton = () => {
-      setPage("services");
-    };
-    if (page === "services") {
-      return <Services />;
-    }
+  const handleBackButton = () => {
+    setPage("services");
+  };
+  if (page === "services") {
+    return <Services />;
+  }
   return (
     <>
       <div className="relative">
@@ -33,6 +32,6 @@ const ClassAudio = () => {
       </div>
     </>
   );
-}
+};
 
-export default ClassAudio
+export default ClassAudio;

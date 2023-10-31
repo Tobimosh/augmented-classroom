@@ -39,7 +39,7 @@
 //         <h2 className="text-6xl">AUGMENTED CLASSROOM</h2>
 //       </div>
 //       <div className="h-[90vh] flex justify-center items-center w-full">
- 
+
 //         <Card
 //           imageUrl="/attendance.jpeg"
 //           name="Attendance"
@@ -85,8 +85,9 @@ import { useState } from "react";
 import Attendance from "./Attendance";
 import ClassAudio from "./ClassAudio";
 import Login from "./Login";
-import Card from "./Card";
+import Card from "../components/Card";
 import { Link } from "react-router-dom";
+import Nav from "../components/Nav";
 
 const Services = () => {
   const [service, setServices] = useState("");
@@ -114,25 +115,29 @@ const Services = () => {
       {/* <div className="w-[100vw] flex justify-center">
         <h2 className="text-6xl">AUGMENTED CLASSROOM</h2>
       </div> */}
+      <div>
+
+
+      </div>
       <div className=" flex justify-center items-center w-full">
+      <Nav/>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           <Link to="/attendance">
-
-          <Card
-            imageUrl="/attendance.jpeg"
-            name="Attendance"
-            onClick={handleAttendanceClick}
-          />
+            <Card
+              imageUrl="/attendance.jpeg"
+              name="Attendance"
+              onClick={handleAttendanceClick}
+            />
           </Link>
 
           <Link to="https://forms.gle/iGxMKzsg6opCbqML6">
-            <Card imageUrl="/pop-quiz.jpeg" name="Take Pop Quiz" />
+            <Card imageUrl="/pop.jpeg" name="Take Pop Quiz" />
           </Link>
           <Link to="https://forms.gle/MV3wt4DKHwxhnAdo9">
-            <Card imageUrl="/evaluation.jpeg" name="Lecturer Evaluation" />
+            <Card imageUrl="/lecturer.jpeg" name="Lecturer Evaluation" />
           </Link>
           <Card
-            imageUrl="/attendance.jpeg"
+            imageUrl="/audii.jpeg"
             name="Audio Visual"
             onClick={handleClassAudioClick}
           />
@@ -143,4 +148,3 @@ const Services = () => {
 };
 
 export default Services;
-
