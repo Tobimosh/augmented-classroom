@@ -6,8 +6,9 @@ import axios from "axios";
 // import LoginPage from "./Login";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Modal, Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 const schema = z.object({
   matric_number: z.string().min(3),
@@ -18,21 +19,7 @@ type FormData = z.infer<typeof schema>;
 
 const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   // const [isSignUpSuccessful, setIsSignUpSuccessful] = useState(false);
-
-  const style = {
-    position: "absolute" as "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-    borderRadius: 3,
-  };
 
   const {
     register,
@@ -50,8 +37,8 @@ const SignUp = () => {
         if (response.status === 200) {
           console.log("Registration successful");
           reset();
-          // setIsSignUpSuccessful(true);
-          setIsModalOpen(true);
+          notify();
+          window.location.href = "/services";
         } else {
           console.error("Registration failed");
         }
@@ -69,17 +56,20 @@ const SignUp = () => {
       });
   };
 
-  const handleClose = () => {
-    setIsModalOpen(false);
-  };
-
-  // const navigate = useNavigate();
+  const notify = () =>
+    toast.success("Sign up successful", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
 
   return (
     <div className="flex justify-center h-[100vh] items-center">
-      {/* {isSignUpSuccessful ? (
-        <LoginPage />
-      ) : ( */}
       <div className="flex items-center gap-10 bg-red-100">
         <form
           onSubmit={handleSubmit(handleFormSubmit)}
@@ -142,26 +132,7 @@ const SignUp = () => {
           <CircularProgress color="inherit" />
         </Backdrop>
       )}
-      {isModalOpen && (
-        <Modal
-          open={isModalOpen}
-          onClose={() => {
-            // navigate("log-in");
-            handleClose();
-          }}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              Hey there,
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Thanks for signing up!
-            </Typography>
-          </Box>
-        </Modal>
-      )}
+      <ToastContainer />
     </div>
   );
 };

@@ -34,7 +34,7 @@ const Login = () => {
   });
 
   const notify = () =>
-    toast.success("🦄 Wow so easy!", {
+    toast.success("Log in successful", {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -60,24 +60,7 @@ const Login = () => {
           console.log(token);
           console.log("Login successful");
           notify();
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          />;
-          {
-            /* Same as */
-          }
-          <ToastContainer />;
           setIsLoggedIn(true);
-
           localStorage.setItem("isLoggedIn", "true");
           setIsLoggedIn(false);
         }
@@ -102,6 +85,7 @@ const Login = () => {
 
   return (
     <>
+    <ToastContainer/>
       {isLoggedIn && (
         <div className=" flex justify-center h-[100vh]  items-center">
           <div className="flex items-center gap-10 bg-red-100">
