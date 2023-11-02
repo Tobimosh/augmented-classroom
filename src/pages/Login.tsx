@@ -7,7 +7,7 @@ import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const schema = z.object({
   matric_number: z.string().min(3),
@@ -34,7 +34,7 @@ const Login = () => {
     password: "",
   });
 
-  
+
   const notify = () =>
     toast.success("Log in successful", {
       position: "top-right",
@@ -89,7 +89,7 @@ const Login = () => {
 
   return (
     <>
-    <ToastContainer/>
+      <ToastContainer />
       {isLoggedIn && (
         <div className=" flex justify-center h-[100vh]  items-center">
           <div className="flex items-center gap-10 bg-red-100">
@@ -140,6 +140,12 @@ const Login = () => {
                   Login
                 </button>
               </div>
+              <div className="flex items-end text-sm mt-4">
+                <span className="mr-2">Don't have an account?</span>
+                <Link to="/sign-up" className="text-red-500">
+                Sign Up
+                </Link>
+              </div>
             </form>
             <div>
               <img src="/img.png" className="h-[600px]" alt="" />
@@ -155,7 +161,6 @@ const Login = () => {
           <CircularProgress color="inherit" />
         </Backdrop>
       )}
-
     </>
   );
 };
