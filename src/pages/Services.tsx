@@ -7,8 +7,6 @@ import Nav from "../components/Nav";
 import { useNavigate } from "react-router-dom";
 
 
-
-
 const Services = () => {
   const navigate = useNavigate();
   const [service, setServices] = useState("");
@@ -33,6 +31,7 @@ const Services = () => {
 
   useEffect(() => {
     if (!localStorage.getItem("user")) navigate("/log-in")
+  
 
   }, [])
 

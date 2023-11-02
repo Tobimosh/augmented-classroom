@@ -7,6 +7,7 @@ import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
   matric_number: z.string().min(3),
@@ -26,12 +27,14 @@ const Login = () => {
   // const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const navigate = useNavigate()
 
   const [, setFormData] = useState<FormData>({
     matric_number: "",
     password: "",
   });
 
+  
   const notify = () =>
     toast.success("Log in successful", {
       position: "top-right",
@@ -62,6 +65,7 @@ const Login = () => {
           setIsLoggedIn(true);
           localStorage.setItem("user", JSON.stringify({matric_number: formData.matric_number}));
           setIsLoggedIn(false);
+          navigate("/services")
         }
       })
       .catch((err) => {
