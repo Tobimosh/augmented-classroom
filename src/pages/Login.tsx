@@ -27,7 +27,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
-  const [formData, setFormData] = useState<FormData>({
+  const [, setFormData] = useState<FormData>({
     matric_number: "",
     password: "",
   });

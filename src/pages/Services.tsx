@@ -7,11 +7,9 @@ import Nav from "../components/Nav";
 import { useNavigate } from "react-router-dom";
 
 
-interface Props {
-  num: string;
-}
 
-const Services = ({num}: Props) => {
+
+const Services = () => {
   const navigate = useNavigate();
   const [service, setServices] = useState("");
 
