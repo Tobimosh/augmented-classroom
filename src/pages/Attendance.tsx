@@ -9,7 +9,8 @@ import {
 } from "@simplewebauthn/browser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import Services from "./Services";
+// import Services from "./Services";
+import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
   username: z.string().min(3),
@@ -17,6 +18,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 const Attendance = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -25,7 +27,6 @@ const Attendance = () => {
   } = useForm<FormData>({ resolver: zodResolver(schema), mode: "onBlur" });
   const [, setData] = useState(null);
   const [, setError] = useState("");
-  const [page, setPage] = useState("attendance");
   // const [loading, setLoading] = useState(false);
 
   const handleFormSubmit = async (formData: FieldValues) => {
@@ -82,11 +83,8 @@ const Attendance = () => {
   useEffect(() => {}, []);
 
   const handleBackButton = () => {
-    setPage("services");
+    navigate("/services")
   };
-  if (page === "services") {
-    return <Services />;
-  }
 
   return (
     <>

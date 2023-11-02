@@ -3,13 +3,14 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import FingerprintIcon from "@mui/icons-material/Fingerprint";
 import PersonIcon from "@mui/icons-material/Person";
 
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 interface Props {
   matric_num: string;
   children: React.ReactNode
 }
 
 const Nav = ({matric_num, children}: Props) => {
+  const navigate = useNavigate()
   return (
     <div className="h-screen min-h-screen flex max-h-[100%] justify-between w-full ">
       <div className="w-fit bg-white flex flex-col items-center   pt-10 pb-10 text-gray-500 ">
@@ -26,10 +27,10 @@ const Nav = ({matric_num, children}: Props) => {
             <FingerprintIcon />
           </div>
 
-          <button title="Log out">
-            <Link to="/log-in">
+          <button className="cursor-pointer" onClick={() => {localStorage.removeItem("user"); navigate("/log-in")}} title="Log out">
+   
               <ExitToAppIcon />
-            </Link>
+     
           </button>
         </div>
       </div>

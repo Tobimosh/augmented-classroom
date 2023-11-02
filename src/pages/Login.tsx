@@ -5,7 +5,6 @@ import { z } from "zod";
 import axios from "axios";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import Services from "./Services";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -61,7 +60,7 @@ const Login = () => {
           console.log("Login successful");
           notify();
           setIsLoggedIn(true);
-          localStorage.setItem("isLoggedIn", "true");
+          localStorage.setItem("user", JSON.stringify({matric_number: formData.matric_number}));
           setIsLoggedIn(false);
         }
       })
@@ -72,6 +71,7 @@ const Login = () => {
         setIsLoading(false);
       });
 
+      
     console.log(formData);
     reset();
   };
@@ -152,7 +152,6 @@ const Login = () => {
         </Backdrop>
       )}
 
-      {!isLoggedIn && <Services num={formData.matric_number} />}
     </>
   );
 };

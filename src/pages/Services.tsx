@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Attendance from "./Attendance";
 import ClassAudio from "./ClassAudio";
 import Login from "./Login";
 import Card from "../components/Card";
 import Nav from "../components/Nav";
+import { useNavigate } from "react-router-dom";
 
 
 interface Props {
@@ -11,6 +12,7 @@ interface Props {
 }
 
 const Services = ({num}: Props) => {
+  const navigate = useNavigate();
   const [service, setServices] = useState("");
 
   const handleAttendanceClick = () => {
@@ -31,6 +33,11 @@ const Services = ({num}: Props) => {
     return <Login />;
   }
 
+  useEffect(() => {
+    if (!localStorage.getItem("user")) navigate("/log-in")
+
+  }, [])
+
   return (
     <>
       {/* <div className="w-[100vw] flex justify-center">
@@ -38,7 +45,7 @@ const Services = ({num}: Props) => {
       </div> */}
       <div></div>
       <div className=" flex justify-center items-center w-full">
-        <Nav matric_num={num} >
+        <Nav matric_num={JSON.parse(localStorage.getItem("user") as string)?.matric_number} >
           <div className="flex justify-between w-full flex-wrap gap-4 h-full">
             <Card
               imageUrl="/attendance.jpeg"
