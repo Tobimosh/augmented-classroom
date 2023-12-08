@@ -8,6 +8,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 const schema = z.object({
   matric_number: z.string().min(3),
@@ -47,6 +48,7 @@ const Login = () => {
       theme: "light",
     });
 
+
   const handleFormSubmit = (formData: FieldValues) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -54,6 +56,10 @@ const Login = () => {
     }));
 
     setIsLoading(true);
+    useQuery({
+      queryKey: ["students"]
+    })
+
     axios
       .post("https://augmented-classroom.onrender.com/verify-student", formData)
       .then((response) => {
@@ -79,6 +85,7 @@ const Login = () => {
     console.log(formData);
     reset();
   };
+
 
   useEffect(() => {
     const storedIsLoggedIn = localStorage.getItem("isLoggedIn");

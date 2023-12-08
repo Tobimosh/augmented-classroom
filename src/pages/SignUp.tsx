@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { isValid, z } from "zod";
 import axios from "axios";
 // import LoginPage from "./Login";
 import Backdrop from "@mui/material/Backdrop";
@@ -9,71 +9,53 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Link } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
+import { useQuery } from "@tanstack/react-query";
+import APIClient from "../services/api-client";
+import { useRegister } from "../hooks/useRegister";
 
 const schema = z.object({
   matric_number: z.string().min(3),
   password: z.string().min(7),
 });
 
-type FormData = z.infer<typeof schema>;
+export type FormData = z.infer<typeof schema>;
 
 const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
-  // const [isSignUpSuccessful, setIsSignUpSuccessful] = useState(false);
-
-
-
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     reset,
   } = useForm<FormData>({ resolver: zodResolver(schema), mode: "onBlur" });
 
-    const notify = () =>
-      toast.success("Sign up successful", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+  const notify = () =>
+    toast.success("Sign up successful", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
+  const { mutate, data } = useRegister();
 
   const handleFormSubmit = (formData: FormData) => {
     setIsLoading(true);
-
-    axios
-      .post("https://augmented-classroom.onrender.com/create-student", formData)
-      .then((response) => {
-        if (response.status === 200) {
-          console.log("Registration successful");
-          reset();
-          notify();
-          // window.location.href = "/log-in";
-        } else {
-          console.error("Registration failed");
-        }
-      })
-      .catch((error) => {
-        console.error("Error occurred during registration:", error);
-        if (error.response) {
-          console.error("Error response data:", error.response.data);
-        } else {
-          console.error("No response received from the server.");
-        }
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    if (isValid) {
+      mutate(formData);
+      console.log(mutate);
+      console.log(data);
+    }
+    setIsLoading(false)
   };
 
   return (
     <>
       <ToastContainer />
-
       <div className="flex justify-center h-[100vh] items-center">
         <div className="flex items-center gap-10 bg-red-100">
           <form
