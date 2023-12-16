@@ -122,7 +122,7 @@ const Login = () => {
               </div>
             </form>
             <div>
-              <img src="/img.png" className="h-[600px]" alt="" />
+              <img src="/students.jpeg" className="object-cover w-fit hidden lg:block" alt="" />
             </div>
           </div>
         </div>

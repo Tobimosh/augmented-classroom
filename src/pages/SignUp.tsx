@@ -92,7 +92,7 @@ const SignUp = () => {
             </div>
           </form>
           <div>
-            <img src="/img.png" className="h-[600px]" alt="" />
+            <img src="/students.jpeg" className="h-[600px]" alt="" />
           </div>
         </div>
         
