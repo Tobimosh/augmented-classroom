@@ -1,10 +1,8 @@
-
+// APIClient.ts
 
 import axios, { AxiosInstance } from "axios";
 import { ToastOptions, toast } from "react-toastify";
 
-
-console.log(import.meta.env.VITE_API_URL)
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL
 });
@@ -60,7 +58,24 @@ class APIClient<T> {
         throw error;
       });
   }
+
+
+  login = (data: T) => {
+    return axiosInstance.post(this.endpoint, data)
+      .then(res => {
+        if (res.status === 200) {
+          const { access_token, token_type, refresh_token } = res.data;
+          this.setBearerToken(access_token);
+          return { access_token, token_type, refresh_token };
+        } else {
+          return Promise.reject("Login failed");
+        }
+      })
+      .catch(error => {
+        toast.error('Error:', error);
+        throw error;
+      });
+  };
 }
 
 export default APIClient;
-
