@@ -1,27 +1,26 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
-import axios from "axios";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useLogin } from "../hooks/useLogin";
 
 const schema = z.object({
   matric_number: z.string().min(3),
   password: z.string().min(7),
 });
 
-type FormData = z.infer<typeof schema>;
+export type FormData = z.infer<typeof schema>;
 
 const Login = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     reset,
   } = useForm<FormData>({ resolver: zodResolver(schema), mode: "onBlur" });
 
@@ -36,54 +35,22 @@ const Login = () => {
   });
 
 
-  const notify = () =>
-    toast.success("Log in successful", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
 
+  const verifyStudent = useLogin();
 
-  const handleFormSubmit = (formData: FieldValues) => {
+  const handleFormSubmit = (formData: FormData) => {
+
     setFormData((prevData) => ({
       ...prevData,
       ...formData,
     }));
 
     setIsLoading(true);
-    useQuery({
-      queryKey: ["students"]
-    })
-
-    axios
-      .post("https://augmented-classroom.onrender.com/verify-student", formData)
-      .then((response) => {
-        if (response.status === 200) {
-          const token = response.data.token;
-          console.log(token);
-          console.log("Login successful");
-          notify();
-          setIsLoggedIn(true);
-          localStorage.setItem("user", JSON.stringify({matric_number: formData.matric_number}));
-          setIsLoggedIn(false);
-          navigate("/services")
-        }
-      })
-      .catch((err) => {
-        console.log("An error occurred during authentication: ", err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-
-      
-    console.log(formData);
-    reset();
+     if (isValid) {
+       verifyStudent.mutate(formData);
+       reset();
+     }
+     setIsLoading(false);
   };
 
 

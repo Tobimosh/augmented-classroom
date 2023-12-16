@@ -1,16 +1,12 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { isValid, z } from "zod";
-import axios from "axios";
-// import LoginPage from "./Login";
+import { z } from "zod";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
-import { useQuery } from "@tanstack/react-query";
-import APIClient from "../services/api-client";
 import { useRegister } from "../hooks/useRegister";
 
 const schema = z.object({
@@ -29,17 +25,7 @@ const SignUp = () => {
     reset,
   } = useForm<FormData>({ resolver: zodResolver(schema), mode: "onBlur" });
 
-  const notify = () =>
-    toast.success("Sign up successful", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+
 
   const { mutate, data } = useRegister();
 
@@ -47,8 +33,7 @@ const SignUp = () => {
     setIsLoading(true);
     if (isValid) {
       mutate(formData);
-      console.log(mutate);
-      console.log(data);
+      reset();
     }
     setIsLoading(false)
   };
@@ -110,7 +95,7 @@ const SignUp = () => {
             <img src="/img.png" className="h-[600px]" alt="" />
           </div>
         </div>
-        {/* )} */}
+        
         {isLoading && (
           <Backdrop
             sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
