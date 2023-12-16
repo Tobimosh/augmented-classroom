@@ -9,12 +9,14 @@ import {
 } from "@simplewebauthn/browser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-// import Services from "./Services";
 import { useNavigate } from "react-router-dom";
+import APIClient from "../services/api-client";
+import { apiClient } from "../hooks/useLogin";
 
 const schema = z.object({
   username: z.string().min(3),
 });
+
 type FormData = z.infer<typeof schema>;
 
 const Attendance = () => {
@@ -34,7 +36,12 @@ const Attendance = () => {
 
     try {
       const response = await axios.get(
-        `https://augmented-classroom.onrender.com/generate-registration-options?matric_number=${formData.username}`
+        `https://augmented-classroom.onrender.com/generate-registration-options?matric_number=${formData.username}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        }
       );
 
       const registrationOptions = JSON.parse(response.data);
@@ -46,7 +53,11 @@ const Attendance = () => {
 
       await axios.post(
         `https://augmented-classroom.onrender.com/verify-registration-response?matric_number=${formData.username}`,
-        registrationResponse
+        registrationResponse, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`
+          }
+        }
       );
 
       reset();
@@ -57,7 +68,12 @@ const Attendance = () => {
   const handleAuthentication = async (formData: FieldValues) => {
     try {
       const response = await axios.get(
-        `https://augumented-classroom.onrender.com/generate-authentication-options?matric_number=${formData.username}`
+        `https://augumented-classroom.onrender.com/generate-authentication-options?matric_number=${formData.username}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        }
       );
 
       const authenticationOptions = JSON.parse(response.data);
@@ -71,7 +87,11 @@ const Attendance = () => {
 
       await axios.post(
         `https://augumented-classroom.onrender.com/verify-authentication-response?matric_number=${formData.username}`,
-        authenticationResponse
+        authenticationResponse, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`
+          }
+        }
       );
 
       reset();

@@ -60,13 +60,47 @@ class APIClient<T> {
   }
 
 
-  login = (data: T) => {
+  // login = (data: T) => {
+  //   return axiosInstance.post(this.endpoint, data)
+  //     .then(res => {
+  //       if (res.status === 200) {
+  //         const { access_token, token_type, refresh_token } = res.data;
+  //         this.setBearerToken(access_token);
+  //         return { access_token, token_type, refresh_token };
+  //       } else {
+  //         return Promise.reject("Login failed");
+  //       }
+  //     })
+  //     .catch(error => {
+  //       toast.error('Error:', error);
+  //       throw error;
+  //     });
+  // };
+
+login = (data: T) => {
     return axiosInstance.post(this.endpoint, data)
       .then(res => {
         if (res.status === 200) {
-          const { access_token, token_type, refresh_token } = res.data;
+          const { access_token, token_type, refresh_token, expires_in } = res.data;
           this.setBearerToken(access_token);
-          return { access_token, token_type, refresh_token };
+
+          // Store tokens in local storage
+          localStorage.setItem('access_token', access_token);
+          localStorage.setItem('refresh_token', refresh_token);
+
+          // Calculate token expiration time in milliseconds
+          const expirationTime = expires_in * 1000;
+
+          // Check if the token is about to expire (e.g., within next 4 minutes)
+          const currentTime = Math.floor(Date.now() / 1000);
+          if (expirationTime - currentTime < 240) {
+            // Token is about to expire, initiate token refresh
+            return this.refreshToken().then(newAccessToken => {
+              return { access_token: newAccessToken, token_type, refresh_token };
+            });
+          } else {
+            return { access_token, token_type, refresh_token };
+          }
         } else {
           return Promise.reject("Login failed");
         }
@@ -76,6 +110,30 @@ class APIClient<T> {
         throw error;
       });
   };
+
+
+    refreshToken = async () => {
+    const refreshToken = localStorage.getItem('refresh_token');
+    console.log(refreshToken)
+
+    if (!refreshToken) {
+      throw new Error('Refresh token not available');
+    }
+
+    try {
+      const response = await axiosInstance.post('/refresh', {
+        refresh_token: refreshToken,
+      });
+
+      const newAccessToken = response.data.access_token;
+      this.setBearerToken(newAccessToken);
+
+      return newAccessToken;
+    } catch (error) {
+      console.error('Error refreshing token:', error);
+      throw error;
+    }
+  }
 }
 
 export default APIClient;
