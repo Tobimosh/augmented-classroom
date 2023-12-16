@@ -20,7 +20,8 @@ const toastStyle: ToastOptions = {
 };
 
 const submitForm = (data: FormData) => {
-  const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJPZmZpY2lhbCB0b2tlbiBmb3IgQXVnbWVudGVkIENsYXNzcm9vbSBjcmVhdGUtc3R1ZGVudCIsImV4cCI6MTcxMzA5ODg2M30.lHXNUKBgIRfTID8RLEhanPjtfT8ChxpHmZT9wErbCIE"; 
+	console.log(import.meta.env.VITE_APP_BEARER_TOKEN);	
+  const authToken = import.meta.env.VITE_APP_BEARER_TOKEN; 
 
   if (!authToken) {
     alert("Authentication token is missing");

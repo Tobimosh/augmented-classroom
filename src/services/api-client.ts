@@ -3,8 +3,10 @@
 import axios, { AxiosInstance } from "axios";
 import { ToastOptions, toast } from "react-toastify";
 
+
+// console.log(import.meta.env.VITE_API_URL)
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: 'https://augmented-classroom.onrender.com'
+  baseURL: import.meta.env.VITE_API_URL
 });
 
 const toastStyle: ToastOptions = {
