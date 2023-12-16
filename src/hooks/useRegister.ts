@@ -8,6 +8,7 @@ import APIClient from "../services/api-client";
 
 const apiClient = new APIClient<FormData>('/create-student');
 
+
 const toastStyle: ToastOptions = {
   position: 'top-right',
   autoClose: 5000,
