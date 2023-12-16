@@ -48,7 +48,7 @@ const Services = () => {
               imageUrl="/attendance.jpeg"
               name="Attendance"
               onClick={handleAttendanceClick}
-              linkUrl={"/attendance"}
+              linkUrl={"/services/:attendance"}
             />
             <Card
               imageUrl="/pop.jpeg"
