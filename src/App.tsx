@@ -19,9 +19,9 @@ const App = () => {
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/log-in" element={<Login />} />
           <Route path="/services" element={<Services />} />
-          <Route path="/lecture-slides" element={<LectureSlides />} />
-          <Route path="/class-audio" element={<ClassAudio />} />
-          <Route path="/attendance" element={<Attendance />} />
+          <Route path="/services/:lecture-slides" element={<LectureSlides />} />
+          <Route path="/services/:class-audio" element={<ClassAudio />} />
+          <Route path="/services/:attendance" element={<Attendance />} />
     
       </Routes>
     </div>
