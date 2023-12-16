@@ -1,10 +1,11 @@
-import axios from "axios";
+
+
+import axios, { AxiosInstance } from "axios";
 import { ToastOptions, toast } from "react-toastify";
 
-const axiosInstance = axios.create({
+const axiosInstance: AxiosInstance = axios.create({
   baseURL: 'https://augmented-classroom.onrender.com'
 });
-
 
 const toastStyle: ToastOptions = {
   position: 'top-right',
@@ -19,23 +20,45 @@ const toastStyle: ToastOptions = {
 
 class APIClient<T> {
   endpoint: string;
+  authToken: string | null = null;
 
   constructor(endpoint: string) {
-    this.endpoint = endpoint
+    this.endpoint = endpoint;
+  }
+
+  setBearerToken(token: string) {
+    this.authToken = token;
   }
 
   register = (data: T) => {
-    return axiosInstance.post<T>(this.endpoint, data).then(res => {
-      if (res.status === 404) {
-        toast.error("I'm afraid you put in the wrong details", toastStyle);
-      } else if (res.status === 400) {
-        toast.error("Student with that details already exists", toastStyle);
-      } else if (res.status === 200) {
-        toast.success("SUCCESS!!", toastStyle);
-      }
-      return res.data; 
+    return axiosInstance.post<T>(this.endpoint, data, {
+      headers: {
+        Authorization: this.authToken ? `Bearer ${this.authToken}` : '',
+      },
     })
+    .then(res => {
+        if (res.status === 200) {
+            toast.success("SUCCESS!!", toastStyle);
+        }
+        return res.data;
+      })
+      .catch(error => {
+        if (error.response) {
+          if (error.response.status === 404) {
+            toast.error("I'm afraid you put in the wrong details", toastStyle);
+          } else if (error.response.status === 400) {
+            toast.error("Student with that details already exists", toastStyle);
+          }
+        } else if (error.request) {
+          toast.error("No response from the server", toastStyle);
+        } else {
+          toast.error("Error in request setup", toastStyle);
+        }
+        console.error('Error:', error);
+        throw error;
+      });
   }
 }
 
 export default APIClient;
+
