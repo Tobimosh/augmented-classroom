@@ -4,7 +4,7 @@ import axios, { AxiosInstance } from "axios";
 import { ToastOptions, toast } from "react-toastify";
 
 
-// console.log(import.meta.env.VITE_API_URL)
+console.log(import.meta.env.VITE_API_URL)
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL
 });
