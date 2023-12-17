@@ -1,12 +1,11 @@
-// APIClient.ts
-
 import axios, { AxiosInstance } from "axios";
 import { ToastOptions, toast } from "react-toastify";
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
-
+const date = new Date(Date.now())
+console.log(performance.now())
 const toastStyle: ToastOptions = {
   position: "top-right",
   autoClose: 5000,
@@ -24,8 +23,6 @@ class APIClient<T> {
 
   constructor(endpoint: string) {
     this.endpoint = endpoint;
-    // Initial token check on instantiation
-    this.checkAndRefreshToken();
   }
 
   setBearerToken(token: string) {
@@ -46,18 +43,29 @@ class APIClient<T> {
         return res.data;
       })
       .catch((error) => {
-        // Handle errors and display toasts
-        this.handleRequestError(error);
+        if (error.response) {
+          if (error.response.status === 404) {
+            toast.error("I'm afraid you put in the wrong details", toastStyle);
+          } else if (error.response.status === 400) {
+            toast.error("Student with that details already exists", toastStyle);
+          }
+        } else if (error.request) {
+          toast.error("No response from the server", toastStyle);
+        } else {
+          toast.error("Error in request setup", toastStyle);
+        }
+        console.error("Error:", error);
         throw error;
       });
   };
+
 
   login = (data: T) => {
     return axiosInstance
       .post(this.endpoint, data)
       .then((res) => {
         if (res.status === 200) {
-          const { access_token, token_type, refresh_token, expires_in } =
+          const { access_token, token_type, refresh_token } =
             res.data;
           this.setBearerToken(access_token);
 
@@ -69,7 +77,7 @@ class APIClient<T> {
           const expirationTime = 2 * 60 * 1000;
 
           const currentTime = performance.now();
-          if (expirationTime - currentTime < 90 * 1000) {
+          if ((expirationTime - currentTime )< 90 * 1000) {
             // Token is about to expire, initiate token refresh
             return this.refreshToken().then((newAccessToken) => {
               return {
@@ -86,72 +94,37 @@ class APIClient<T> {
         }
       })
       .catch((error) => {
-        // Handle errors and display toasts
-        this.handleRequestError(error);
+        toast.error("Error:", error);
         throw error;
       });
   };
 
   refreshToken = async () => {
     const refreshToken = localStorage.getItem("refresh_token");
+    console.log(refreshToken);
+
     if (!refreshToken) {
       throw new Error("Refresh token not available");
     }
 
     try {
       const response = await axiosInstance.post("/refresh", {
-        refresh_token: refreshToken},
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('access_token')}`
-          }
+        refresh_token: refreshToken,
+      }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
-      );
+
+      });
 
       const newAccessToken = response.data.access_token;
       this.setBearerToken(newAccessToken);
 
-      // Schedule the next token check after 1 minute and 30 seconds
-      setTimeout(this.checkAndRefreshToken.bind(this), 90 * 1000);
-
       return newAccessToken;
     } catch (error) {
-      // Handle errors and display toasts
-      this.handleRequestError(error);
+      console.error("Error refreshing token:", error);
       throw error;
     }
-  };
-
-  private checkAndRefreshToken = () => {
-    const expirationTime = 2 * 60 * 1000;
-    const currentTime = performance.now();
-    if (expirationTime - currentTime < 90 * 1000) {
-      // Token is about to expire, initiate token refresh
-      this.refreshToken().catch((error) => {
-        console.error("Error refreshing token:", error);
-      });
-    } else {
-      // Schedule the next token check after 1 minute and 30 seconds
-      setTimeout(this.checkAndRefreshToken.bind(this), 90 * 1000);
-    }
-  };
-
-  private handleRequestError = (error: any) => {
-    if (error.response) {
-      if (error.response.status === 404) {
-        toast.error("I'm afraid you put in the wrong details", toastStyle);
-      } else if (error.response.status === 400) {
-        toast.error(
-          "Student with that details already exists",
-          toastStyle
-        );
-      }
-    } else if (error.request) {
-      toast.error("No response from the server", toastStyle);
-    } else {
-      toast.error("Error in request setup", toastStyle);
-    }
-    console.error("Error:", error);
   };
 }
 
