@@ -25,6 +25,8 @@ class APIClient<T> {
     this.endpoint = endpoint;
     this.setupTokenRefresh();
   }
+  private refreshInterval: any = null; // Use 'any' type for broader compatibility
+
 
   setBearerToken(token: string) {
     this.authToken = token;
@@ -103,10 +105,19 @@ class APIClient<T> {
       });
   }
 
+  // setupTokenRefresh = () => {
+  //   setInterval(() => {
+  //     this.checkTokenAndRefresh();
+  //   }, 60 * 1000);
+  // }
+
   setupTokenRefresh = () => {
-    setInterval(() => {
-      this.checkTokenAndRefresh();
-    }, 60 * 1000);
+    // Check if setInterval has already been set up
+    if (!this.refreshInterval) {
+      this.refreshInterval = setInterval(() => {
+        this.checkTokenAndRefresh();
+      }, 60 * 1000);
+    }
   }
 
   checkTokenAndRefresh = () => {
