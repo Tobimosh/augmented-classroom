@@ -44,7 +44,6 @@ class APIClient<T> {
         return res.data;
       })
       .catch((error) => {
-        // Handle errors
         console.error("Error:", error);
         throw error;
       });
@@ -58,7 +57,6 @@ class APIClient<T> {
           const { access_token, token_type, refresh_token } = res.data;
           this.setBearerToken(access_token);
 
-          // Store tokens in local storage
           localStorage.setItem("access_token", access_token);
           localStorage.setItem("refresh_token", refresh_token);
 
@@ -92,7 +90,7 @@ class APIClient<T> {
         }
       );
 
-      const newAccessToken = response.data.access_token;
+      const newAccessToken = response.data.new_access_token;
       this.setBearerToken(newAccessToken);
       localStorage.setItem("access_token", newAccessToken);
 
@@ -112,11 +110,10 @@ class APIClient<T> {
   };
 
   checkTokenAndRefresh = async () => {
-    const expirationTime = 2 * 60 * 1000; // 2 minutes
+    const expirationTime = 14 * 60 * 1000;
     const currentTime = performance.now();
 
     if ((expirationTime - currentTime) < 90 * 1000) {
-      // Token is about to expire, initiate token refresh
       this.isRefreshing = true;
       try {
         const newAccessToken = await this.refreshToken();
