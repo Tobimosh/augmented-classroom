@@ -73,36 +73,7 @@ class APIClient<T> {
       });
   };
 
-  // refreshToken = async () => {
-  //   const refreshToken = localStorage.getItem("refresh_token");
 
-  //   if (!refreshToken) {
-  //     throw new Error("Refresh token not available");
-  //   }
-
-  //   try {
-  //     const response = await axiosInstance.post(
-  //       "/refresh",
-  //       { refresh_token: refreshToken },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-  //         },
-  //       }
-  //     );
-
-  //     const newAccessToken = response.data.access_token;
-  //     this.setBearerToken(newAccessToken);
-  //     localStorage.setItem("access_token", newAccessToken);
-
-  //     return newAccessToken;
-  //   } catch (error) {
-  //     console.error("Error refreshing token:", error);
-  //     throw error;
-  //   } finally{
-  //     this.isRefreshing = false;
-  //   }
-  // };
   refreshToken = async () => {
     const refreshToken = localStorage.getItem("refresh_token");
 
@@ -116,7 +87,7 @@ class APIClient<T> {
         { refresh_token: refreshToken },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("")}`,
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
           },
         }
       );
@@ -135,7 +106,6 @@ class APIClient<T> {
   };
 
   setupTokenRefresh = () => {
-    // Refresh the token every 1 minute (adjust as needed)
     setInterval(() => {
       this.checkTokenAndRefresh();
     }, 60 * 1000);
