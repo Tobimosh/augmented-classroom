@@ -41,7 +41,6 @@ export const useLogin = () => {
       console.error("Error:", error);
     },
     onSuccess: (data) => {
-      // Assuming you want to do something with the data on successful login
       toast.success("Login Successful", toastStyle);
       localStorage.setItem("user", JSON.stringify(data))
       console.log("Login successful!");
