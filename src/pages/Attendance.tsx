@@ -68,7 +68,7 @@ const Attendance = () => {
   const handleAuthentication = async (formData: FieldValues) => {
     try {
       const response = await axios.get(
-        `https://augumented-classroom.onrender.com/generate-authentication-options?matric_number=${formData.username}`,
+        `https://augmented-classroom.onrender.com/generate-authentication-options?matric_number=${formData.username}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -86,7 +86,7 @@ const Attendance = () => {
       console.log(authenticationResponse);
 
       await axios.post(
-        `https://augumented-classroom.onrender.com/verify-authentication-response?matric_number=${formData.username}`,
+        `https://augmented-classroom.onrender.com/verify-authentication-response?matric_number=${formData.username}`,
         authenticationResponse, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('access_token')}`

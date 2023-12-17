@@ -24,7 +24,6 @@ class APIClient<T> {
 
   constructor(endpoint: string) {
     this.endpoint = endpoint;
-    // Initial token check on instantiation
     this.checkAndRefreshToken();
   }
 
@@ -46,7 +45,6 @@ class APIClient<T> {
         return res.data;
       })
       .catch((error) => {
-        // Handle errors and display toasts
         this.handleRequestError(error);
         throw error;
       });
@@ -61,16 +59,13 @@ class APIClient<T> {
             res.data;
           this.setBearerToken(access_token);
 
-          // Store tokens in local storage
           localStorage.setItem("access_token", access_token);
           localStorage.setItem("refresh_token", refresh_token);
 
-          // Calculate token expiration time in milliseconds
           const expirationTime = 2 * 60 * 1000;
 
           const currentTime = performance.now();
           if (expirationTime - currentTime < 90 * 1000) {
-            // Token is about to expire, initiate token refresh
             return this.refreshToken().then((newAccessToken) => {
               return {
                 access_token: newAccessToken,
@@ -86,7 +81,6 @@ class APIClient<T> {
         }
       })
       .catch((error) => {
-        // Handle errors and display toasts
         this.handleRequestError(error);
         throw error;
       });
@@ -106,12 +100,10 @@ class APIClient<T> {
       const newAccessToken = response.data.access_token;
       this.setBearerToken(newAccessToken);
 
-      // Schedule the next token check after 1 minute and 30 seconds
       setTimeout(this.checkAndRefreshToken.bind(this), 90 * 1000);
 
       return newAccessToken;
     } catch (error) {
-      // Handle errors and display toasts
       this.handleRequestError(error);
       throw error;
     }
@@ -121,12 +113,10 @@ class APIClient<T> {
     const expirationTime = 2 * 60 * 1000;
     const currentTime = performance.now();
     if (expirationTime - currentTime < 90 * 1000) {
-      // Token is about to expire, initiate token refresh
       this.refreshToken().catch((error) => {
         console.error("Error refreshing token:", error);
       });
     } else {
-      // Schedule the next token check after 1 minute and 30 seconds
       setTimeout(this.checkAndRefreshToken.bind(this), 90 * 1000);
     }
   };
