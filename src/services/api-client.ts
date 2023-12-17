@@ -100,8 +100,13 @@ class APIClient<T> {
 
     try {
       const response = await axiosInstance.post("/refresh", {
-        refresh_token: refreshToken,
-      });
+        refresh_token: refreshToken},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`
+          }
+        }
+      );
 
       const newAccessToken = response.data.access_token;
       this.setBearerToken(newAccessToken);
