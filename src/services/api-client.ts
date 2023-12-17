@@ -97,6 +97,8 @@ class APIClient<T> {
 
       const newAccessToken = response.data.access_token;
       this.setBearerToken(newAccessToken);
+      localStorage.setItem("access_token", newAccessToken);
+
 
       return newAccessToken;
     } catch (error) {
