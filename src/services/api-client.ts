@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosInstance } from "axios";
+import axios, { AxiosInstance } from "axios";
 import { ToastOptions, toast } from "react-toastify";
 
 const axiosInstance: AxiosInstance = axios.create({
@@ -116,7 +116,7 @@ class APIClient<T> {
         { refresh_token: refreshToken },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("refresh_token")}`,
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
           },
         }
       );
