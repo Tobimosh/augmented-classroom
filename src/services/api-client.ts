@@ -241,7 +241,7 @@ class APIClient<T> {
     const expirationTime = 2 * 60 * 1000;
     const currentTime = performance.now();
 
-    if (expirationTime - currentTime < 9 * 1000) {
+    if (expirationTime - currentTime < 9) * 1000) {
       this.isRefreshing = true;
       this.refreshToken()
         .then((newAccessToken) => {
