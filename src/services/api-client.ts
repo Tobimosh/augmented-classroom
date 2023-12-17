@@ -110,10 +110,10 @@ class APIClient<T> {
   };
 
   checkTokenAndRefresh = async () => {
-    const expirationTime = 14 * 60 * 1000;
+    const expirationTime = 15 * 60 * 1000;
     const currentTime = performance.now();
 
-    if ((expirationTime - currentTime) < 90 * 1000) {
+    if ((expirationTime - currentTime) < 840 * 1000) {
       this.isRefreshing = true;
       try {
         const newAccessToken = await this.refreshToken();
