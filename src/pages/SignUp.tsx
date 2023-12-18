@@ -41,60 +41,64 @@ const SignUp = () => {
   return (
     <>
       <ToastContainer />
-      <div className="flex justify-center h-[100vh] items-center">
-        <div className="flex items-center gap-10 bg-red-100">
+
+              <div className="flex items-center justify-center min-h-screen">
           <form
             onSubmit={handleSubmit(handleFormSubmit)}
-            className="flex flex-col p-7 md:w-1/2 h-1/2 rounded-xl"
+            className="p-7 w-full max-w-xl"
           >
+            <p className="text-xl font-bold mb-5 text-center">
+              Sign Up and lets get you started!
+            </p>
+
             <div className="mb-5">
-              <h2 className="text-3xl">Let's sign you up!</h2>
-            </div>
-            <div className="mb-5 flex flex-col">
-              <label htmlFor="matric_number" className="mb-5">
+              <label htmlFor="matric_number" className="block mb-1 text-xs">
                 Matric Number
               </label>
               <input
                 type="text"
                 {...register("matric_number")}
-                className="py-3 px-4 border border-gray-400 outline-none rounded-lg"
-                placeholder="Enter your matric number..."
+                className="w-full py-3 px-2 border text-xs hover:outline-1 border-gray-400 outline-none focus:border-blue-500 rounded-lg"
+                placeholder="Matric Number"
               />
               {errors.matric_number && (
                 <p className="text-red-500">{errors.matric_number.message}</p>
               )}
             </div>
-            <div>
-              <label htmlFor="password">Password</label>
+
+            <div className="mb-5">
+              <label htmlFor="password" className="block mb-1 text-xs">
+                Password
+              </label>
               <input
                 type="password"
                 {...register("password")}
-                className="py-3 px-4 border border-gray-400 mt-5 outline-none w-full rounded-lg"
-                placeholder="********"
+                className="w-full py-3 px-2 border text-xs border-gray-400 outline-none focus:border-blue-500 rounded-lg"
+                placeholder="***"
               />
+              {errors.password && (
+                <p className="text-red-500">{errors.password.message}</p>
+              )}
             </div>
-            {errors.password && (
-              <p className="text-red-500">{errors.password.message}</p>
-            )}
-            <div className="flex justify-between mt-7 mb-5">
+
+            <div className="flex justify-center">
               <button
                 type="submit"
-                className="bg-blue-200 w-full rounded-lg px-4 py-3"
+                className="bg-blue-500 text-white rounded-lg px-4 py-3 w-full"
               >
-                Sign Up
+                Sign up
               </button>
             </div>
-            <div className="flex items-end text-sm">
-              <span className="mr-2">Have an account?</span>
-              <Link to="/log-in" className="text-red-500">
+
+            <div className="flex justify-center text-sm mt-4">
+              <span className="mr-2">Already have an account?</span>
+              <Link to="/log-in" className="text-blue-500">
                 Log in
               </Link>
             </div>
           </form>
-          <div>
-            <img src="/students.jpeg" className="h-[600px]" alt="" />
-          </div>
         </div>
+
         
         {isLoading && (
           <Backdrop
@@ -104,7 +108,7 @@ const SignUp = () => {
             <CircularProgress color="inherit" />
           </Backdrop>
         )}
-      </div>
+    
     </>
   );
 };

@@ -10,8 +10,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/useLogin";
 
 const schema = z.object({
-  matric_number: z.string().min(3),
-  password: z.string().min(7),
+  matric_number: z.string().min(10, {message: 'Matric number must contain at least 10 characters'}),
+  password: z.string().min(7, {message: 'Password must contain at least 7 characters'}),
 });
 
 export type FormData = z.infer<typeof schema>;
@@ -65,66 +65,61 @@ const Login = () => {
     <>
       <ToastContainer />
       {isLoggedIn && (
-        <div className=" flex justify-center h-[100vh]  items-center">
-          <div className="flex items-center gap-10 bg-red-100">
-            <form
-              onSubmit={handleSubmit(handleFormSubmit)}
-              className="flex flex-col p-7 md:w-1/2 h-1/2 rounded-xl"
-            >
-              <div className="mb-5">
-                <h2 className="text-3xl mb-">Welcome!</h2>
-                <p className="text-sm">
-                  Enter your{" "}
-                  <span className="text-gray-600 font-semibold">details</span>{" "}
-                  to gain access to your account
-                </p>
-              </div>
-              <div className="mb-5 flex flex-col">
-                <label htmlFor="matric_number" className="mb-5">
-                  Matric Number
-                </label>
-                <input
-                  type="text"
-                  {...register("matric_number")}
-                  className="py-3 px-4 border border-gray-400 outline-none rounded-lg"
-                  placeholder="Enter your matric number..."
-                />
-                {errors.matric_number && (
-                  <p className="text-red-500">{errors.matric_number.message}</p>
-                )}
-              </div>
-              <div>
-                <label htmlFor="password">Password</label>
-                <input
-                  type="password"
-                  // onChange={handlePasswordChange("password")}
-                  {...register("password")}
-                  className="py-3 px-4 border border-gray-400 mt-5 outline-none w-full rounded-lg"
-                  placeholder="***"
-                />
-              </div>
+        <div className="flex items-center justify-center min-h-screen">
+          <form
+            onSubmit={handleSubmit(handleFormSubmit)}
+            className="p-7 w-full max-w-xl"
+          >
+            <p className="text-xl font-bold mb-5 text-center">
+              Log in to your account
+            </p>
+
+            <div className="mb-5">
+              <label htmlFor="matric_number" className="block mb-1 text-xs">
+                Matric Number
+              </label>
+              <input
+                type="text"
+                {...register("matric_number")}
+                className="w-full py-3 px-2 border text-xs hover:outline-1 border-gray-400 outline-none focus:border-blue-500 rounded-lg"
+                placeholder="Matric Number"
+              />
+              {errors.matric_number && (
+                <p className="text-red-500">{errors.matric_number.message}</p>
+              )}
+            </div>
+
+            <div className="mb-5">
+              <label htmlFor="password" className="block mb-1 text-xs">
+                Password
+              </label>
+              <input
+                type="password"
+                {...register("password")}
+                className="w-full py-3 px-2 border text-xs border-gray-400 outline-none focus:border-blue-500 rounded-lg"
+                placeholder="***"
+              />
               {errors.password && (
                 <p className="text-red-500">{errors.password.message}</p>
               )}
-              <div className="flex justify-between mt-7">
-                <button
-                  type="submit"
-                  className="bg-blue-200 rounded-lg w-full px-4 py-3"
-                >
-                  Login
-                </button>
-              </div>
-              <div className="flex items-end text-sm mt-4">
-                <span className="mr-2">Don't have an account?</span>
-                <Link to="/sign-up" className="text-red-500">
-                Sign Up
-                </Link>
-              </div>
-            </form>
-            <div>
-              <img src="/students.jpeg" className="object-cover w-fit hidden lg:block" alt="" />
             </div>
-          </div>
+
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                className="bg-blue-500 text-white rounded-lg px-4 py-3 w-full"
+              >
+                Login
+              </button>
+            </div>
+
+            <div className="flex justify-center text-sm mt-4">
+              <span className="mr-2">Don't have an account?</span>
+              <Link to="/sign-up" className="text-blue-500">
+                Sign Up
+              </Link>
+            </div>
+          </form>
         </div>
       )}
       {isLoading && (
