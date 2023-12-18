@@ -68,9 +68,9 @@ const Login = () => {
         <div className="flex items-center justify-center min-h-screen">
           <form
             onSubmit={handleSubmit(handleFormSubmit)}
-            className="p-7 w-full max-w-xl"
+            className="p-7 w-full max-w-xl poppins"
           >
-            <p className="text-xl font-bold mb-5 text-center">
+            <p className="lg:text-3xl text-xl font-bold mb-10 text-center boldPoppins">
               Log in to your account
             </p>
 
@@ -89,7 +89,7 @@ const Login = () => {
               )}
             </div>
 
-            <div className="mb-5">
+            <div className="lg:mb-20 mb-10">
               <label htmlFor="password" className="block mb-1 text-xs">
                 Password
               </label>
@@ -107,7 +107,7 @@ const Login = () => {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="bg-blue-500 text-white rounded-lg px-4 py-3 w-full"
+                className="bg-blue-500 text-white hover:bg-blue-400 rounded-lg px-4 py-3 w-full"
               >
                 Login
               </button>
