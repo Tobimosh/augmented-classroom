@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/useLogin";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const schema = z.object({
   matric_number: z.string().min(10, {message: 'Matric number must contain at least 10 characters'}),
@@ -25,7 +26,6 @@ const Login = () => {
   } = useForm<FormData>({ resolver: zodResolver(schema), mode: "onBlur" });
 
   // const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const navigate = useNavigate()
 
@@ -45,12 +45,11 @@ const Login = () => {
       ...formData,
     }));
 
-    setIsLoading(true);
      if (isValid) {
        verifyStudent.mutate(formData);
        reset();
      }
-     setIsLoading(false);
+   
   };
 
 
@@ -109,7 +108,20 @@ const Login = () => {
                 type="submit"
                 className="bg-blue-500 text-white hover:bg-blue-400 rounded-lg px-4 py-3 w-full"
               >
-                Login
+                {verifyStudent.isLoading ? (
+                  <>
+                    <ClipLoader
+                      color="#ffff"
+                      loading={verifyStudent.isLoading}
+                      size={20}
+                      aria-label="Loading Spinner"
+                      data-testid="loader"
+                    />
+                    <span className="ml-2">Authenticating...</span>
+                  </>
+                ) : (
+                  "Log in"
+                )}
               </button>
             </div>
 
@@ -121,14 +133,6 @@ const Login = () => {
             </div>
           </form>
         </div>
-      )}
-      {isLoading && (
-        <Backdrop
-          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={isLoading}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
       )}
     </>
   );

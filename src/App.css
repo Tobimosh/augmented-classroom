@@ -4,11 +4,11 @@
 
 @font-face{
   font-family: poppins;
-  src: url(../public/Poppins-Light.ttf)
+  src: url(/Poppins-Light.ttf)
 }
 @font-face {
   font-family: boldPoppins;
-  src: url(../public/Poppins-Bold.ttf);
+  src: url(/Poppins-Bold.ttf);
 }
 
 .poppins{

@@ -19,13 +19,12 @@ const toastStyle: ToastOptions = {
 
 const submitLogin = async (data: FormData) => {
   try {
-   const response = await apiClient.login(data);
+    const response = await apiClient.login(data);
     localStorage.setItem("access_token", response.access_token);
     return response;
   } catch (error) {
     throw error;
   }
-  
 };
 
 export const useLogin = () => {
@@ -41,12 +40,12 @@ export const useLogin = () => {
       console.error("Error:", error);
     },
     onSuccess: (data) => {
-      toast.success("Login Successful", toastStyle);
-      localStorage.setItem("user", JSON.stringify(data))
-      console.log("Login successful!");
-      navigate('/services');
+      localStorage.setItem("user", JSON.stringify(data));
+
+      setTimeout(() => {
+        navigate("/services");
+      }, 5000);
     },
-    
   });
 
   return mutation;

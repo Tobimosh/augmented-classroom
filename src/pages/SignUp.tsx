@@ -1,12 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import ClipLoader from "react-spinners/ClipLoader";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { z } from "zod";
 import { useRegister } from "../hooks/useRegister";
 
 const schema = z.object({
@@ -17,7 +15,6 @@ const schema = z.object({
 export type FormData = z.infer<typeof schema>;
 
 const SignUp = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -25,17 +22,16 @@ const SignUp = () => {
     reset,
   } = useForm<FormData>({ resolver: zodResolver(schema), mode: "onBlur" });
 
-
-
-  const { mutate, data } = useRegister();
-
-  const handleFormSubmit = (formData: FormData) => {
-    setIsLoading(true);
-    if (isValid) {
-      mutate(formData);
-      reset();
+  const { mutate, isLoading } = useRegister();
+  const handleFormSubmit = async (formData: FormData) => {
+    try {
+      if (isValid) {
+        await mutate(formData);
+        reset();
+      }
+    } catch (error) {
+      console.error("Mutation failed:", error);
     }
-    setIsLoading(false)
   };
 
   return (
@@ -48,7 +44,7 @@ const SignUp = () => {
           className="p-7 w-full max-w-xl poppins"
         >
           <p className="lg:text-3xl text-xl font-bold mb-10 text-center boldPoppins">
-            Sign up and lets get started!
+            Sign up and let's get started!
           </p>
 
           <div className="mb-5">
@@ -84,9 +80,22 @@ const SignUp = () => {
           <div className="flex justify-center">
             <button
               type="submit"
-              className="bg-blue-500 text-white rounded-lg px-4 py-3 w-full"
+              className="bg-blue-500 text-white flex justify-center items-center rounded-lg px-4 py-3 w-full"
             >
-              Sign up
+              {isLoading ? (
+                <>
+                  <ClipLoader
+                    color="#ffff"
+                    loading={isLoading}
+                    size={20}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                  />
+                  <span className="ml-2">Signing up...</span>
+                </>
+              ) : (
+                "Sign up"
+              )}
             </button>
           </div>
 
@@ -98,15 +107,6 @@ const SignUp = () => {
           </div>
         </form>
       </div>
-
-      {isLoading && (
-        <Backdrop
-          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={isLoading}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
-      )}
     </>
   );
 };

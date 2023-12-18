@@ -21,7 +21,6 @@ const toastStyle: ToastOptions = {
 };
 
 const submitForm = (data: FormData) => {
-	console.log(import.meta.env.VITE_APP_BEARER_TOKEN);	
   const authToken = import.meta.env.VITE_APP_BEARER_TOKEN; 
 
   if (!authToken) {
@@ -41,9 +40,11 @@ export const useRegister = () => {
     mutationFn: submitForm,
     onError: (error) => console.log(error),
     onSuccess: () => {
-    //   navigate('/log-in');
 	  toast.success('Registration Successful, please log in', toastStyle);
 
+      setTimeout(() => {
+        navigate('/log-in');
+      }, 3000);
     }
   });
 };
