@@ -64,74 +64,78 @@ const Login = () => {
     <>
       <ToastContainer />
       {isLoggedIn && (
-        <div className="flex items-center justify-center min-h-screen">
-          <form
-            onSubmit={handleSubmit(handleFormSubmit)}
-            className="p-7 w-full max-w-xl poppins"
-          >
-            <p className="lg:text-3xl text-xl font-bold mb-10 text-center boldPoppins">
-              Log in to your account
-            </p>
+        <div className="flex  flex-col items-center  min-h-screen">
+          <div className="flex items-center">
 
-            <div className="mb-5">
-              <label htmlFor="matric_number" className="block mb-1 text-xs">
-                Matric Number
-              </label>
-              <input
-                type="text"
-                {...register("matric_number")}
-                className="w-full py-3 px-2 border text-xs hover:outline-1 border-gray-400 outline-none focus:border-blue-500 rounded-lg"
-                placeholder="Matric Number"
-              />
-              {errors.matric_number && (
-                <p className="text-red-500">{errors.matric_number.message}</p>
-              )}
-            </div>
+            <img className="mb-8 mt-8" width={100} src="/bulb.png" alt="" />
+          </div>
+            <form
+              onSubmit={handleSubmit(handleFormSubmit)}
+              className="p-7 w-full max-w-xl poppins"
+            >
+              <p className="lg:text-3xl text-xl font-bold mb-10 text-center boldPoppins">
+                Log in to your account
+              </p>
 
-            <div className="lg:mb-20 mb-10">
-              <label htmlFor="password" className="block mb-1 text-xs">
-                Password
-              </label>
-              <input
-                type="password"
-                {...register("password")}
-                className="w-full py-3 px-2 border text-xs border-gray-400 outline-none focus:border-blue-500 rounded-lg"
-                placeholder="***"
-              />
-              {errors.password && (
-                <p className="text-red-500">{errors.password.message}</p>
-              )}
-            </div>
-
-            <div className="flex justify-center">
-              <button
-                type="submit"
-                className="bg-blue-500 text-white hover:bg-blue-400 rounded-lg px-4 py-3 w-full"
-              >
-                {verifyStudent.isLoading ? (
-                  <>
-                    <ClipLoader
-                      color="#ffff"
-                      loading={verifyStudent.isLoading}
-                      size={20}
-                      aria-label="Loading Spinner"
-                      data-testid="loader"
-                    />
-                    <span className="ml-2">Authenticating...</span>
-                  </>
-                ) : (
-                  "Log in"
+              <div className="mb-5">
+                <label htmlFor="matric_number" className="block mb-1 text-xs">
+                  Matric Number
+                </label>
+                <input
+                  type="text"
+                  {...register("matric_number")}
+                  className="w-full py-3 px-2 border text-xs hover:outline-1 border-gray-400 outline-none focus:border-blue-500 rounded-lg"
+                  placeholder="Matric Number"
+                />
+                {errors.matric_number && (
+                  <p className="text-red-500">{errors.matric_number.message}</p>
                 )}
-              </button>
-            </div>
+              </div>
 
-            <div className="flex justify-center text-sm mt-4">
-              <span className="mr-2">Don't have an account?</span>
-              <Link to="/sign-up" className="text-blue-500">
-                Sign Up
-              </Link>
-            </div>
-          </form>
+              <div className="lg:mb-20 mb-10">
+                <label htmlFor="password" className="block mb-1 text-xs">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  {...register("password")}
+                  className="w-full py-3 px-2 border text-xs border-gray-400 outline-none focus:border-blue-500 rounded-lg"
+                  placeholder="***"
+                />
+                {errors.password && (
+                  <p className="text-red-500">{errors.password.message}</p>
+                )}
+              </div>
+
+              <div className="flex justify-center">
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white hover:bg-blue-400 rounded-lg px-4 py-3 w-full"
+                >
+                  {verifyStudent.isLoading ? (
+                    <>
+                      <ClipLoader
+                        color="#ffff"
+                        loading={verifyStudent.isLoading}
+                        size={20}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                      />
+                      <span className="ml-2">Authenticating...</span>
+                    </>
+                  ) : (
+                    "Log in"
+                  )}
+                </button>
+              </div>
+
+              <div className="flex justify-center text-sm mt-4">
+                <span className="mr-2">Don't have an account?</span>
+                <Link to="/sign-up" className="text-blue-500">
+                  Sign Up
+                </Link>
+              </div>
+            </form>
         </div>
       )}
     </>

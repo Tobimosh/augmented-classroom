@@ -38,7 +38,11 @@ const SignUp = () => {
     <>
       <ToastContainer />
 
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex flex-col items-center min-h-screen">
+        <div className="flex items-center">
+          <img className="mb-8 mt-8" width={100} src="/bulb.png" alt="" />
+          <span className="lg:text-3xl text-xl boldPoppins text-blue-500">VirtuLearn</span>
+        </div>
         <form
           onSubmit={handleSubmit(handleFormSubmit)}
           className="p-7 w-full max-w-xl poppins"
