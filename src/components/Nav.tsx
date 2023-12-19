@@ -33,6 +33,7 @@ const Nav = ({ matric_num, children }: Props) => {
               localStorage.removeItem("user");
               localStorage.removeItem("access_token");
               localStorage.removeItem('refresh_token');
+              localStorage.setItem('isLoggedIn', 'false')
               navigate("/log-in");
             }}
             title="Log out"

@@ -23,7 +23,6 @@ const Login = () => {
     reset,
   } = useForm<FormData>({ resolver: zodResolver(schema), mode: "onBlur" });
 
-  // const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate()
 
@@ -32,9 +31,9 @@ const Login = () => {
     password: "",
   });
 
-
-
   const verifyStudent = useLogin();
+  // localStorage.setItem('isLoggedIn', 'false')
+
 
   const handleFormSubmit = (formData: FormData) => {
 
@@ -48,6 +47,7 @@ const Login = () => {
        reset();
      }
      if(!verifyStudent.error){
+      // localStorage.setItem('isLoggedIn', 'true')
       setIsLoggedIn(true)
      }
    
