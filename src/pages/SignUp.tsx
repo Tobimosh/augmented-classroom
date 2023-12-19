@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import ClipLoader from "react-spinners/ClipLoader";
+import HashLoader from "react-spinners/HashLoader";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
@@ -41,7 +41,9 @@ const SignUp = () => {
       <div className="flex flex-col items-center min-h-screen">
         <div className="flex items-center">
           <img className="mb-8 mt-8" width={100} src="/bulb.png" alt="" />
-          <span className="lg:text-3xl text-xl boldPoppins text-blue-500">VirtuLearn</span>
+          <span className="lg:text-3xl text-xl boldPoppins text-blue-500">
+            VirtuLearn
+          </span>
         </div>
         <form
           onSubmit={handleSubmit(handleFormSubmit)}
@@ -80,18 +82,22 @@ const SignUp = () => {
               <p className="text-red-500">{errors.password.message}</p>
             )}
           </div>
-
           <div className="flex justify-center">
             <button
               type="submit"
-              className="bg-blue-500 text-white flex justify-center items-center rounded-lg px-4 py-3 w-full"
+              className={`${
+                isLoading
+                  ? "bg-blue-400 cursor-not-allowed"
+                  : "bg-blue-500 hover:bg-blue-400"
+              } text-white flex justify-center items-center rounded-lg px-4 py-3 w-full`}
+              disabled={isLoading}
             >
               {isLoading ? (
                 <>
-                  <ClipLoader
+                  <HashLoader
                     color="#ffff"
                     loading={isLoading}
-                    size={20}
+                    size={25}
                     aria-label="Loading Spinner"
                     data-testid="loader"
                   />

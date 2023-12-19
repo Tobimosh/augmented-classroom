@@ -1,14 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
+import HashLoader from "react-spinners/HashLoader";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { z } from "zod";
 import { useLogin } from "../hooks/useLogin";
-import ClipLoader from "react-spinners/ClipLoader";
 
 const schema = z.object({
   matric_number: z.string().min(10, {message: 'Matric number must contain at least 10 characters'}),
@@ -112,14 +110,19 @@ const Login = () => {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="bg-blue-500 text-white hover:bg-blue-400 rounded-lg px-4 py-3 w-full"
+                className={`${
+                  verifyStudent.isLoading
+                    ? "bg-blue-400 cursor-not-allowed"
+                    : "bg-blue-500 hover:bg-blue-400"
+                } text-white flex justify-center items-center rounded-lg px-4 py-3 w-full`}
+                disabled={verifyStudent.isLoading}
               >
                 {verifyStudent.isLoading ? (
                   <>
-                    <ClipLoader
+                    <HashLoader
                       color="#ffff"
                       loading={verifyStudent.isLoading}
-                      size={20}
+                      size={25}
                       aria-label="Loading Spinner"
                       data-testid="loader"
                     />
