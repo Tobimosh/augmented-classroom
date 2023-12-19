@@ -32,7 +32,7 @@ const Login = () => {
   });
 
   const verifyStudent = useLogin();
-  // localStorage.setItem('isLoggedIn', 'false')
+  localStorage.setItem('isLoggedIn', 'false')
 
 
   const handleFormSubmit = (formData: FormData) => {
@@ -47,7 +47,7 @@ const Login = () => {
        reset();
      }
      if(!verifyStudent.error){
-      // localStorage.setItem('isLoggedIn', 'true')
+      localStorage.setItem('isLoggedIn', 'true')
       setIsLoggedIn(true)
      }
    
