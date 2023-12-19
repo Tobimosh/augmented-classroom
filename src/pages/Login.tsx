@@ -10,8 +10,15 @@ import { useLogin } from "../hooks/useLogin";
 import StudentContext from "../context/studentContext";
 
 const schema = z.object({
-  matric_number: z.string().min(10, {message: 'Matric number must contain at least 10 characters'}),
-  password: z.string().min(7, {message: 'Password must contain at least 7 characters'}),
+  matric_number: z
+    .string()
+    .min(10, { message: "Matric number must be 10 characters" })
+    .max(10, {
+      message: "Matric number should not be more than 10 characters",
+    }),
+  password: z
+    .string()
+    .min(7, { message: "Password must contain at least 7 characters" }),
 });
 
 export type FormData = z.infer<typeof schema>;
@@ -49,7 +56,6 @@ const Login = () => {
      if (isValid) {
        setFormData(formData)
        verifyStudent.mutate(formData);
-       reset();
      }
      if(!verifyStudent.error){
       localStorage.setItem('isLoggedIn', 'true')
