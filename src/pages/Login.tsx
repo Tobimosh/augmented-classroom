@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import HashLoader from "react-spinners/HashLoader";
@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
 import { useLogin } from "../hooks/useLogin";
+import StudentContext from "../context/studentContext";
 
 const schema = z.object({
   matric_number: z.string().min(10, {message: 'Matric number must contain at least 10 characters'}),
@@ -33,9 +34,12 @@ const Login = () => {
 
   const verifyStudent = useLogin();
   localStorage.setItem('isLoggedIn', 'false')
+  const { state, dispatch } = useContext(StudentContext);
 
 
   const handleFormSubmit = (formData: FormData) => {
+      dispatch({ type: "SET_MATRIC_NUMBER", payload: formData.matric_number });
+      dispatch({ type: "SET_PASSWORD", payload: formData.password });
 
     setFormData((prevData) => ({
       ...prevData,
@@ -50,7 +54,9 @@ const Login = () => {
      if(!verifyStudent.error){
       localStorage.setItem('isLoggedIn', 'true')
       setIsLoggedIn(true)
+      
      }
+     console.log('formData: ', state)
    return {formData, setFormData};
   };
 
