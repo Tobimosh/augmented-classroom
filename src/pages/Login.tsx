@@ -24,7 +24,7 @@ const Login = () => {
   } = useForm<FormData>({ resolver: zodResolver(schema), mode: "onBlur" });
 
   // const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate()
 
   const [, setFormData] = useState<FormData>({
@@ -46,6 +46,9 @@ const Login = () => {
      if (isValid) {
        verifyStudent.mutate(formData);
        reset();
+     }
+     if(!verifyStudent.error){
+      setIsLoggedIn(true)
      }
    
   };
