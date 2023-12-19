@@ -37,9 +37,7 @@ const Services = () => {
 
   return (
     <>
-      {/* <div className="w-[100vw] flex justify-center">
-        <h2 className="text-6xl">AUGMENTED CLASSROOM</h2>
-      </div> */}
+
       <div></div>
       <div className=" flex justify-center items-center w-full">
         <Nav>
