@@ -10,7 +10,7 @@ import { useRegister } from "../hooks/useRegister";
 const schema = z.object({
   matric_number: z
     .string()
-    .min(9, { message: "Matric number must be 10 characters" }),
+    .min(9, { message: "Matric number must be at least 9 characters" }),
     // .max(10, {
     //   message: "Matric number should not be more than 10 characters",
     // }),
