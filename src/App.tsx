@@ -17,20 +17,23 @@ const App = () => {
       password: "",
     });
     return (
-    <div>
-      <Routes key={location.pathname} location={location}>
-        <Route path="/" element={<SignUp />} />
-        <Route path="/sign-up" element={<SignUp />} />
-        <StudentContext.Provider value={{state, dispatch}}>
-          <Route path="/log-in" element={<Login />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/services/:lecture-slides" element={<LectureSlides />} />
-          <Route path="/services/:class-audio" element={<ClassAudio />} />
-          <Route path="/services/:attendance" element={<Attendance />} />
+      <div>
+        <StudentContext.Provider value={{ state, dispatch }}>
+          <Routes key={location.pathname} location={location}>
+            <Route path="/" element={<SignUp />} />
+            <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/log-in" element={<Login />} />
+            <Route path="/services" element={<Services />} />
+            <Route
+              path="/services/:lecture-slides"
+              element={<LectureSlides />}
+            />
+            <Route path="/services/:class-audio" element={<ClassAudio />} />
+            <Route path="/services/:attendance" element={<Attendance />} />
+          </Routes>
         </StudentContext.Provider>
-      </Routes>
-    </div>
-  );
+      </div>
+    );
 }; 
 
 export default App;
