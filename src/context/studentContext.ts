@@ -1,9 +1,19 @@
 
-import React from "react";
+import React, { Dispatch } from "react";
 import { FormData } from "../pages/Login";
+import { Action } from "../Reducer/LoginReducer";
 
+interface LoginFormData {
+  matric_number: string;
+  password: string;
+}
 
-const StudentContext = React.createContext<FormData>({matric_number: '', password: ""})
+interface StudentProps {
+  state: LoginFormData;
+  dispatch: Dispatch<Action>;
+}
+
+const StudentContext = React.createContext<StudentProps>({} as StudentProps)
 
 export default StudentContext;
 

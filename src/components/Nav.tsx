@@ -4,12 +4,15 @@ import FingerprintIcon from "@mui/icons-material/Fingerprint";
 import PersonIcon from "@mui/icons-material/Person";
 
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import StudentContext from "../context/studentContext";
 interface Props {
   matric_num: string;
   children: React.ReactNode;
 }
 
 const Nav = ({ matric_num, children }: Props) => {
+  const context = useContext(StudentContext)
   const navigate = useNavigate();
   return (
     <div className="h-screen min-h-screen flex max-h-[100%] justify-between w-full ">
@@ -19,7 +22,7 @@ const Nav = ({ matric_num, children }: Props) => {
             <div className="text-sm border-t-2 border-b-2 p-5 ">
               <span>
                 <PersonIcon />
-                {matric_num}
+                {context.state.matric_number}
               </span>
             </div>
             <GridViewIcon />

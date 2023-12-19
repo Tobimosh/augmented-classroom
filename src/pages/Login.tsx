@@ -43,6 +43,7 @@ const Login = () => {
     }));
 
      if (isValid) {
+       setFormData(formData)
        verifyStudent.mutate(formData);
        reset();
      }
@@ -50,7 +51,7 @@ const Login = () => {
       localStorage.setItem('isLoggedIn', 'true')
       setIsLoggedIn(true)
      }
-   
+   return {formData, setFormData};
   };
 
 

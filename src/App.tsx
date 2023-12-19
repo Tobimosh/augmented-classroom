@@ -6,23 +6,28 @@ import LectureSlides from "./components/LectureSlides";
 import ClassAudio from "./pages/ClassAudio";
 import Attendance from "./pages/Attendance";
 import "./App.css";
-import { useState } from "react";
+import { useReducer, useState } from "react";
+import StudentContext from "./context/studentContext";
+import { loginReducer } from "./Reducer/LoginReducer";
 
 
 const App = () => {
-    const [formData] = useState<FormData>();
-  return (
+    const [state, dispatch] = useReducer(loginReducer, {
+      matric_number: "",
+      password: "",
+    });
+    return (
     <div>
       <Routes key={location.pathname} location={location}>
         <Route path="/" element={<SignUp />} />
-        
-          <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/sign-up" element={<SignUp />} />
+        <StudentContext.Provider value={{state, dispatch}}>
           <Route path="/log-in" element={<Login />} />
           <Route path="/services" element={<Services />} />
           <Route path="/services/:lecture-slides" element={<LectureSlides />} />
           <Route path="/services/:class-audio" element={<ClassAudio />} />
           <Route path="/services/:attendance" element={<Attendance />} />
-    
+        </StudentContext.Provider>
       </Routes>
     </div>
   );
