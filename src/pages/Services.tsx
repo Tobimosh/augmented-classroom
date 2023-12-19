@@ -42,7 +42,7 @@ const Services = () => {
       </div> */}
       <div></div>
       <div className=" flex justify-center items-center w-full">
-        <Nav matric_num={JSON.parse(localStorage.getItem("user") as string)?.matric_number} >
+        <Nav>
           <div className="flex justify-between w-full flex-wrap gap-4 h-full">
             <Card
               imageUrl="/attendance.jpeg"

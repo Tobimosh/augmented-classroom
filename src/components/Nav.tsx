@@ -7,11 +7,10 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import StudentContext from "../context/studentContext";
 interface Props {
-  matric_num: string;
   children: React.ReactNode;
 }
 
-const Nav = ({ matric_num, children }: Props) => {
+const Nav = ({ children }: Props) => {
   const context = useContext(StudentContext)
   const navigate = useNavigate();
   return (
