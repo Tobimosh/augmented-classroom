@@ -44,7 +44,7 @@ export const useLogin = () => {
 
       setTimeout(() => {
         navigate("/services");
-      }, 5000);
+      }, 1000);
     },
   });
 
