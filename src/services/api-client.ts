@@ -129,8 +129,8 @@ class APIClient<T> {
     if ((expirationTime - currentTime ) < 840 * 1000) {
       this.isRefreshing = true;
       this.refreshToken()
-        .then((newAccessToken) => {
-          console.log("Token refreshed successfully:", newAccessToken);
+        .then(() => {
+          console.log("Token refreshed successfully");
         })
         .catch((error) => {
           console.error("Error refreshing token:", error);
