@@ -3,7 +3,6 @@ const LectureSlides = () => {
   return (
     <div>
         <input type="file" />
-      
     </div>
   )
 }

@@ -70,6 +70,7 @@ const SignUp = () => {
             <input
               type="text"
               {...register("matric_number")}
+              autoComplete="on"
               className="w-full py-3 px-2 border text-xs hover:outline-1 border-gray-400 outline-none focus:border-blue-500 rounded-lg"
               placeholder="Matric Number"
             />
@@ -85,6 +86,7 @@ const SignUp = () => {
             <input
               type="password"
               {...register("password")}
+              autoComplete="on"
               className="w-full py-3 px-2 border text-xs border-gray-400 outline-none focus:border-blue-500 rounded-lg"
               placeholder="***"
             />

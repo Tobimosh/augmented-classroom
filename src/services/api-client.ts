@@ -119,7 +119,7 @@ class APIClient<T> {
   setupTokenRefresh = () => {
     setInterval(() => {
       this.checkTokenAndRefresh();
-    }, 60 * 1000);
+    }, 14 * 60 * 1000);
   }
 
   checkTokenAndRefresh = () => {
