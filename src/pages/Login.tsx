@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
 import { useLogin } from "../hooks/useLogin";
 import StudentContext from "../context/studentContext";
+import useStudentDetailsStore, { StudentDetails } from "../store/useStudentDetails";
 
 const schema = z.object({
   matric_number: z
@@ -33,6 +34,7 @@ const Login = () => {
   const { mutate, isLoading, error } = useLogin();
 
   localStorage.setItem("isLoggedIn", "false");
+  const {setUserDetails, studentDetails} = useStudentDetailsStore();
 
   const { dispatch } = useContext(StudentContext);
 
@@ -40,12 +42,15 @@ const Login = () => {
     try {
       if (isValid) {
         await mutate(formData);
-        dispatch({
-          type: "SET_MATRIC_NUMBER",
-          payload: formData.matric_number,
-        });
-        dispatch({ type: "SET_PASSWORD", payload: formData.password });
-              localStorage.setItem("isLoggedIn", "true");
+        // dispatch({
+        //   type: "SET_MATRIC_NUMBER",
+        //   payload: formData.matric_number,
+        // });
+        // dispatch({ type: "SET_PASSWORD", payload: formData.password });
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem('studentDetails', JSON.stringify(formData))
+        setUserDetails(formData as StudentDetails)
+        console.log(studentDetails)
       }
     } catch (error) {
       localStorage.setItem("isLoggedIn", "false");

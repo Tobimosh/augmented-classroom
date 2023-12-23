@@ -29,7 +29,11 @@ const SignUp = () => {
     reset,
   } = useForm<FormData>({ resolver: zodResolver(schema), mode: "onBlur" });
 
+  
+
   const { mutate, isLoading } = useRegister();
+
+
   const handleFormSubmit = async (formData: FormData) => {
     try {
       if (isValid) {

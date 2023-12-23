@@ -1,5 +1,5 @@
 
-import React, { Dispatch } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { FormData } from "../pages/Login";
 import { Action } from "../Reducer/LoginReducer";
 

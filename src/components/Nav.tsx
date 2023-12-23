@@ -6,11 +6,14 @@ import PersonIcon from "@mui/icons-material/Person";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import StudentContext from "../context/studentContext";
+import useStudentDetailsStore from "../store/useStudentDetails";
 interface Props {
   children: React.ReactNode;
 }
 
 const Nav = ({ children }: Props) => {
+    const { studentDetails } = useStudentDetailsStore();
+
   const context = useContext(StudentContext)
   const navigate = useNavigate();
   return (
@@ -21,7 +24,9 @@ const Nav = ({ children }: Props) => {
             <div className="text-sm border-t-2 border-b-2 p-5 ">
               <span>
                 <PersonIcon />
-                {context.state.matric_number}
+                {/* {context.state.matric_number}
+                 */}
+                 {studentDetails.matric_number}
               </span>
             </div>
             <GridViewIcon />
