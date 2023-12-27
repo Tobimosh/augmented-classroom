@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import {mountStoreDevtool} from "simple-zustand-devtools"
 
 export interface StudentDetails {
 	matric_number: string;
@@ -20,4 +21,8 @@ const useStudentDetailsStore = create<StudentDetailsStore>((set) => ({
 	setUserDetails: (studentDetails: Partial<StudentDetails>) => set((state) => ({ studentDetails: { ...state.studentDetails, ...studentDetails } })),
 }));
 
+
+if(process.env.NODE_ENV){
+    mountStoreDevtool('Student: ', useStudentDetailsStore)
+}
 export default useStudentDetailsStore;

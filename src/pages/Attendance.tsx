@@ -1,23 +1,22 @@
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  startAuthentication,
+  startRegistration,
+} from "@simplewebauthn/browser";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-import { z } from "zod";
-import {
-  startRegistration,
-  startAuthentication,
-} from "@simplewebauthn/browser";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import APIClient from "../services/api-client";
-import { apiClient } from "../hooks/useLogin";
+import { z } from "zod";
+import useAttendance from "../hooks/useAttendance";
 
 const schema = z.object({
   username: z.string().min(3),
 });
 
-type FormData = z.infer<typeof schema>;
+export type AttendanceData = z.infer<typeof schema>;
 
 const Attendance = () => {
   const navigate = useNavigate();
@@ -26,45 +25,49 @@ const Attendance = () => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<FormData>({ resolver: zodResolver(schema), mode: "onBlur" });
+  } = useForm<AttendanceData>({ resolver: zodResolver(schema), mode: "onBlur" });
   const [, setData] = useState(null);
   const [, setError] = useState("");
   // const [loading, setLoading] = useState(false);
 
+
+   const {data, error, isLoading }= useAttendance();
   const handleFormSubmit = async (formData: FieldValues) => {
     console.log(formData);
+   console.log(data);
 
-    try {
-      const response = await axios.get(
-        `https://augmented-classroom.onrender.com/generate-registration-options?matric_number=${formData.username}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-        }
-      );
+  //   try {
+  //     const response = await axios.get(
+  //       `https://augmented-classroom.onrender.com/generate-registration-options?matric_number=${formData.username}`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+  //         },
+  //       }
+  //     );
 
-      const registrationOptions = JSON.parse(response.data);
-      console.log(registrationOptions);
-      setData(registrationOptions);
+  //     const registrationOptions = JSON.parse(response.data);
+  //     console.log(registrationOptions);
+  //     setData(registrationOptions);
 
-      const registrationResponse = await startRegistration(registrationOptions);
-      console.log(registrationResponse);
+  //     const registrationResponse = await startRegistration(registrationOptions);
+  //     console.log(registrationResponse);
 
-      await axios.post(
-        `https://augmented-classroom.onrender.com/verify-registration-response?matric_number=${formData.username}`,
-        registrationResponse, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('access_token')}`
-          }
-        }
-      );
+  //     await axios.post(
+  //       `https://augmented-classroom.onrender.com/verify-registration-response?matric_number=${formData.username}`,
+  //       registrationResponse, {
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem('access_token')}`
+  //         }
+  //       }
+  //     );
 
-      reset();
-    } catch (err: any) {
-      setError(err.message);
-    }
-  };
+  //     reset();
+  //   } catch (err: any) {
+  //     setError(err.message);
+  //   }
+  // };
+  }
   const handleAuthentication = async (formData: FieldValues) => {
     try {
       const response = await axios.get(

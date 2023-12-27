@@ -1,14 +1,13 @@
-import { SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormEvent, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import HashLoader from "react-spinners/HashLoader";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
-import { useLogin } from "../hooks/useLogin";
 import StudentContext from "../context/studentContext";
+import { useLogin } from "../hooks/useLogin";
 import useStudentDetailsStore, { StudentDetails } from "../store/useStudentDetails";
 
 const schema = z.object({
