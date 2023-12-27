@@ -49,7 +49,7 @@ class APIClient<T> {
         return res.data;
       })
       .catch((error) => {
-        if (error.response && error.response.status === 400) {
+        if (error.response && error.response.status === 409) {
           toast.error("Student already exists", toastStyle);
         } else {
           toast.error(`${error.message}`, toastStyle);

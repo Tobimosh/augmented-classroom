@@ -34,7 +34,7 @@ const Attendance = () => {
    const {data, error, isLoading }= useAttendance();
   const handleFormSubmit = async (formData: FieldValues) => {
     console.log(formData);
-   console.log(data);
+    
 
   //   try {
   //     const response = await axios.get(
