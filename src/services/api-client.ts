@@ -83,7 +83,7 @@ class APIClient<T> {
         if (error.response && error.response.status === 401) {
           toast.error("Wrong Matric number or password", toastStyle);
         }
-        if (error.response && error.response.status === 403 && error.response.data.error === 'incomplete_registration') {
+        if (error.response && error.response.status === 403) {
           toast.error(
             "Sorry, your sign up process was incomplete, please register your attendance and try again",
             toastStyle
