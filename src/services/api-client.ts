@@ -36,7 +36,6 @@ class APIClient<T> {
 
   setBearerToken(token: string) {
     this.authToken = token;
-    // axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   }
 
   register = (data: T) => {
@@ -63,41 +62,6 @@ class APIClient<T> {
       });
   };
 
-  // login = (data: T) => {
-  //   return axiosInstance
-  //     .post(this.endpoint, data)
-  //     .then((res) => {
-  //       if (res.status === 200) {
-  //         const { access_token, token_type, refresh_token } = res.data;
-  //         this.setBearerToken(access_token);
-  //         toast.success("Login Successful", toastStyle);
-
-  //         localStorage.setItem("access_token", access_token);
-  //         localStorage.setItem("refresh_token", refresh_token);
-
-  //         return { access_token, token_type, refresh_token };
-  //       } else {
-  //         return Promise.reject("Login failed");
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       if (error.response && error.response.status === 401) {
-  //         toast.error("Wrong Matric number or password", toastStyle);
-  //       }
-  //       if (error.response && error.response.status === 403) {
-  //         toast.error(
-  //           "Sorry, your sign up process was incomplete, please register your attendance and try again",
-  //           toastStyle
-  //         );
-
-  //         this.regAttendance(data as FormData);
-
-  //         // return this.login(data);
-  //       }
-  //       throw error;
-  //     });
-  // };
-
   login = (data: T) => {
     return axiosInstance
       .post(this.endpoint, data)
@@ -110,17 +74,6 @@ class APIClient<T> {
           localStorage.setItem("access_token", access_token);
           localStorage.setItem("refresh_token", refresh_token);
 
-          // Check if registration is needed
-          if (res.headers["x-registration-status"] === "incomplete") {
-            toast.error(
-              "Sorry, your sign up process was incomplete, please register your attendance and try again",
-              toastStyle
-            );
-
-            // Handle registration separately
-            return this.handleIncompleteRegistration(data as FormData);
-          }
-
           return { access_token, token_type, refresh_token };
         } else {
           return Promise.reject("Login failed");
@@ -130,37 +83,27 @@ class APIClient<T> {
         if (error.response && error.response.status === 401) {
           toast.error("Wrong Matric number or password", toastStyle);
         }
-        if (error.response && error.response.status === 403) {
+        if (error.response && error.response.status === 403 && error.response.data.error === 'incomplete_registration') {
           toast.error(
             "Sorry, your sign up process was incomplete, please register your attendance and try again",
             toastStyle
           );
 
           this.regAttendance(data as FormData);
+
+          // return this.login(data);
         }
         throw error;
       });
   };
 
-  // Separate function to handle incomplete registration
-  handleIncompleteRegistration = (data: FormData) => {
-    return this.regAttendance(data)
-      .then((registrationOptions) => {
-        // Perform additional steps if needed after successful registration
-        return registrationOptions;
-      })
-      .catch((error) => {
-        // Handle registration errors appropriately
-        console.error("Error during registration:", error);
-        throw error;
-      });
-  };
+
 
   regAttendance = async (_data: FormData): Promise<any> => {
     console.log("Executing regAttendance method");
 
     try {
-      const response = await axiosInstance.get(this.endpoint, {
+      const response = await axiosInstance.get(`/generate-registration-options?matric_number=${_data.matric_number}` || this.endpoint, {
         headers: {
           Authorization: this.authToken ? `Bearer ${this.authToken}` : "",
         },
@@ -185,7 +128,6 @@ class APIClient<T> {
 
       return registrationOptions;
     } catch (error) {
-      console.log("tHIS IS THE ERROR BIG MAN", error);
       throw error;
     }
   };
