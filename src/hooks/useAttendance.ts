@@ -8,7 +8,6 @@ interface Register{
   matric_number: string
 }
 const submitForm = (data: FormData) => {
-      const { studentDetails } = useStudentDetailsStore();
 
   const apiClient = new APIClient<FormData>(
   `/generate-registration-options?matric_number=${data.matric_number}`
