@@ -7,7 +7,9 @@ const apiClient = new APIClient<AttendanceData>(
 );
 
 const submitForm = (data: AttendanceData) => {
-  const authToken = localStorage.getItem("access_token");
+  // const authToken = localStorage.getItem("access_token");
+    const authToken = import.meta.env.VITE_APP_BEARER_TOKEN; 
+
 
   if (!authToken) {
     alert("Authentication token is missing");
