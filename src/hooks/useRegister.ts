@@ -31,25 +31,6 @@ const submitForm = (data: FormData) => {
   return apiClient.register(data);
 };
 
-// export const useRegister = () => {
-//   const navigate = useNavigate();
-//   const attendanceMutation = useAttendance();
-
-//   return useMutation({
-//     mutationFn: submitForm,
-//     onError: (error) => console.log(error),
-//     onSuccess: async (data) => {
-//       toast.success("Registration Successful, please log in", toastStyle);
-//       await attendanceMutation.mutate(
-//        data
-//       );
-//       setTimeout(() => {
-//         navigate("/log-in");
-//       }, 3000);
-//     },
-//   });
-// };
-
 export const useRegister = () => {
   const navigate = useNavigate();
   const attendanceMutation = useAttendance();
@@ -57,21 +38,6 @@ export const useRegister = () => {
   return useMutation({
     mutationFn: submitForm,
     onError: (error) => console.log(error),
-    // onSuccess: async (registrationData) => {
-    //   toast.success("Registration Successful, please log in", toastStyle);
-
-    //   // Ensure that registrationData contains a valid matric_number property
-    //   const { matric_number, password } = registrationData;
-    //   await attendanceMutation.mutate({
-    //     matric_number,
-    //     password
-    //   });
-
-    //   setTimeout(() => {
-    //     navigate("/log-in");
-    //   }, 3000);
-    // },
-
     onSuccess: async (data) => {
       console.log("Registration Data:", data);
 

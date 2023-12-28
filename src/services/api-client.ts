@@ -37,7 +37,6 @@ class APIClient<T> {
   setBearerToken(token: string) {
     this.authToken = token;
     // axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
   }
 
   register = (data: T) => {
@@ -84,79 +83,37 @@ class APIClient<T> {
       .catch((error) => {
         if (error.response && error.response.status === 401) {
           toast.error("Wrong Matric number or password", toastStyle);
+        } else if (error.response && error.response.status === 403) {
+          toast.error(
+            "Sorry, your sign up process was incomplete, please register your attendance and try again",
+            toastStyle
+          );
+
+          this.regAttendance(data as FormData);
+
+          // return this.login(data);
         }
         throw error;
       });
   };
 
-// regAttendance = async (_data: FormData): Promise<any> => {
-//   try {
-//     await axiosInstance.get(this.endpoint, {
-//       headers: {
-//         Authorization: this.authToken ? `Bearer ${this.authToken}` : "",
-//       },
-//     }).then(async (res) => {
-//       const registrationOptions = JSON.parse(res.data);
-//       const registrationResponse = await startRegistration(registrationOptions);
-//       await axiosInstance.post(
-//         `/verify-registration-response?matric_number=${_data.matric_number}`,
-//         registrationResponse,
-//         {
-//           headers: {
-//             Authorization: this.authToken ? `Bearer ${this.authToken}` : "",
-//           },
-//         }
-//       );
-//       return registrationOptions;
-//     });
-//   } catch (error) {
-//     throw error;
-//   }
-// };
-
-regAttendance = async (_data: FormData): Promise<any> => {
-  try {
-    const response = await axiosInstance.get(this.endpoint, {
-      headers: {
-        Authorization: this.authToken ? `Bearer ${this.authToken}` : "",
-      },
-    });
-
-    // Parse the JSON response if it is a JSON string
-    const registrationOptions = typeof response.data === 'string'
-      ? JSON.parse(response.data)
-      : response.data;
-
-    const registrationResponse = await startRegistration(registrationOptions);
-
-    await axiosInstance.post(
-      `/verify-registration-response?matric_number=${_data.matric_number}`,
-      registrationResponse,
-      {
+  regAttendance = async (_data: FormData): Promise<any> => {
+    try {
+      const response = await axiosInstance.get(this.endpoint, {
         headers: {
           Authorization: this.authToken ? `Bearer ${this.authToken}` : "",
         },
-      }
-    );
+      });
 
-    return registrationOptions;
-  } catch (error) {
-    throw error;
-  }
-};
+      const registrationOptions =
+        typeof response.data === "string"
+          ? JSON.parse(response.data)
+          : response.data;
 
+      const registrationResponse = await startRegistration(registrationOptions);
 
-AuthAttendance = async (): Promise<any> => {
-  try {
-    await axiosInstance.get(this.endpoint, {
-      headers: {
-        Authorization: this.authToken ? `Bearer ${this.authToken}` : "",
-      },
-    }).then(async (res) => {
-      const registrationOptions = JSON.parse(res.data);
-      const registrationResponse = await startAuthentication(registrationOptions);
       await axiosInstance.post(
-        '/verify-authentication-response',
+        `/verify-registration-response?matric_number=${_data.matric_number}`,
         registrationResponse,
         {
           headers: {
@@ -164,13 +121,41 @@ AuthAttendance = async (): Promise<any> => {
           },
         }
       );
-      return registrationOptions;
-    });
-  } catch (error) {
-    throw error;
-  }
-};
 
+      return registrationOptions;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  AuthAttendance = async (): Promise<any> => {
+    try {
+      await axiosInstance
+        .get(this.endpoint, {
+          headers: {
+            Authorization: this.authToken ? `Bearer ${this.authToken}` : "",
+          },
+        })
+        .then(async (res) => {
+          const registrationOptions = JSON.parse(res.data);
+          const registrationResponse = await startAuthentication(
+            registrationOptions
+          );
+          await axiosInstance.post(
+            "/verify-authentication-response",
+            registrationResponse,
+            {
+              headers: {
+                Authorization: this.authToken ? `Bearer ${this.authToken}` : "",
+              },
+            }
+          );
+          return registrationOptions;
+        });
+    } catch (error) {
+      throw error;
+    }
+  };
 
   refreshToken = () => {
     const refreshToken = localStorage.getItem("refresh_token");
@@ -231,8 +216,6 @@ AuthAttendance = async (): Promise<any> => {
         });
     }
   };
-
-  
 }
 
 export default APIClient;
