@@ -8,6 +8,9 @@ import { z } from "zod";
 import { useRegister } from "../hooks/useRegister";
 import useAttendance from "../hooks/useAttendance";
 import Logo from "../components/Logo";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { useState } from "react";
 
 const schema = z.object({
   matric_number: z
@@ -32,6 +35,8 @@ const SignUp = () => {
   } = useForm<FormData>({ resolver: zodResolver(schema), mode: "onBlur" });
 
   const { mutate, isLoading } = useRegister();
+    const [showPassword, setShowPassword] = useState(false);
+
   // const attendanceMutation = useAttendance();
 
   const handleFormSubmit = async (formData: FormData) => {
@@ -58,7 +63,7 @@ const SignUp = () => {
       <ToastContainer />
 
       <div className="flex flex-col items-center min-h-screen">
-        <Logo width={100}/>
+        <Logo width={100} />
         <form
           onSubmit={handleSubmit(handleFormSubmit)}
           className="p-7 w-full max-w-xl poppins"
@@ -83,21 +88,33 @@ const SignUp = () => {
             )}
           </div>
 
-          <div className="lg:mb-20 mb-10">
+          <div className="lg:mb-20 mb-10 relative">
             <label htmlFor="password" className="block mb-1 text-xs">
               Password
             </label>
-            <input
-              type="password"
-              {...register("password")}
-              autoComplete="on"
-              className="w-full py-3 px-2 border text-xs border-gray-400 outline-none focus:border-blue-500 rounded-lg"
-              placeholder="***"
-            />
+
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                {...register("password")}
+                autoComplete="on"
+                className="w-full py-3 px-2 border text-xs border-gray-400 outline-none focus:border-blue-500 rounded-lg pr-8"
+                placeholder="***"
+              />
+
+              <span
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+              </span>
+            </div>
+
             {errors.password && (
               <p className="text-red-500">{errors.password.message}</p>
             )}
           </div>
+
           <div className="flex justify-center">
             <button
               type="submit"

@@ -10,6 +10,10 @@ import StudentContext from "../context/studentContext";
 import { useLogin } from "../hooks/useLogin";
 import useStudentDetailsStore, { StudentDetails } from "../store/useStudentDetails";
 import Logo from "../components/Logo";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+
+
 
 const schema = z.object({
   matric_number: z
@@ -30,6 +34,7 @@ const Login = () => {
   } = useForm<FormData>({ resolver: zodResolver(schema), mode: "onBlur" });
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const { mutate, isLoading, error } = useLogin();
 
@@ -62,7 +67,7 @@ const Login = () => {
     <>
       <ToastContainer />
       <div className="flex  flex-col items-center  min-h-screen">
-        <Logo width={100}/>
+        <Logo width={100} />
         <form
           onSubmit={handleSubmit(handleFormSubmit)}
           className="p-7 w-full max-w-xl poppins"
@@ -75,6 +80,7 @@ const Login = () => {
             <label htmlFor="matric_number" className="block mb-1 text-xs">
               Matric Number
             </label>
+
             <input
               type="text"
               {...register("matric_number")}
@@ -82,22 +88,34 @@ const Login = () => {
               className="w-full py-3 px-2 border text-xs hover:outline-1 border-gray-400 outline-none focus:border-blue-500 rounded-lg"
               placeholder="Matric Number"
             />
+
             {errors.matric_number && (
               <p className="text-red-500">{errors.matric_number.message}</p>
             )}
           </div>
 
-          <div className="lg:mb-20 mb-10">
+          <div className="lg:mb-20 mb-10 relative">
             <label htmlFor="password" className="block mb-1 text-xs">
               Password
             </label>
-            <input
-              type="password"
-              {...register("password")}
-              autoComplete="on"
-              className="w-full py-3 px-2 border text-xs border-gray-400 outline-none focus:border-blue-500 rounded-lg"
-              placeholder="***"
-            />
+
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                {...register("password")}
+                autoComplete="on"
+                className="w-full py-3 px-2 border text-xs border-gray-400 outline-none focus:border-blue-500 rounded-lg pr-8"
+                placeholder="***"
+              />
+
+              <span
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+              </span>
+            </div>
+
             {errors.password && (
               <p className="text-red-500">{errors.password.message}</p>
             )}
