@@ -20,7 +20,7 @@ const Nav = ({ children }: Props) => {
   const [showDropdown, setShowDropdown] = useState(false);
 
   return (
-    <div className="lg:flex lg:flex-row h-screen  w-full bg-gray-100">
+    <div className="lg:flex lg:flex-row h-screen lg:min-h-screen  w-full bg-gray-100">
       <div className="lg:hidden flex justify-center border-b border-slate-900 bg-white py-2">
         <Logo width={50} />
       </div>
