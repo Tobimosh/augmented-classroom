@@ -89,30 +89,62 @@ class APIClient<T> {
       });
   };
 
+// regAttendance = async (_data: FormData): Promise<any> => {
+//   try {
+//     await axiosInstance.get(this.endpoint, {
+//       headers: {
+//         Authorization: this.authToken ? `Bearer ${this.authToken}` : "",
+//       },
+//     }).then(async (res) => {
+//       const registrationOptions = JSON.parse(res.data);
+//       const registrationResponse = await startRegistration(registrationOptions);
+//       await axiosInstance.post(
+//         `/verify-registration-response?matric_number=${_data.matric_number}`,
+//         registrationResponse,
+//         {
+//           headers: {
+//             Authorization: this.authToken ? `Bearer ${this.authToken}` : "",
+//           },
+//         }
+//       );
+//       return registrationOptions;
+//     });
+//   } catch (error) {
+//     throw error;
+//   }
+// };
+
 regAttendance = async (_data: FormData): Promise<any> => {
   try {
-    await axiosInstance.get(this.endpoint, {
+    const response = await axiosInstance.get(this.endpoint, {
       headers: {
         Authorization: this.authToken ? `Bearer ${this.authToken}` : "",
       },
-    }).then(async (res) => {
-      const registrationOptions = JSON.parse(res.data);
-      const registrationResponse = await startRegistration(registrationOptions);
-      await axiosInstance.post(
-        `/verify-registration-response?matric_number=${_data.matric_number}`,
-        registrationResponse,
-        {
-          headers: {
-            Authorization: this.authToken ? `Bearer ${this.authToken}` : "",
-          },
-        }
-      );
-      return registrationOptions;
     });
+
+    // Parse the JSON response if it is a JSON string
+    const registrationOptions = typeof response.data === 'string'
+      ? JSON.parse(response.data)
+      : response.data;
+
+    const registrationResponse = await startRegistration(registrationOptions);
+
+    await axiosInstance.post(
+      `/verify-registration-response?matric_number=${_data.matric_number}`,
+      registrationResponse,
+      {
+        headers: {
+          Authorization: this.authToken ? `Bearer ${this.authToken}` : "",
+        },
+      }
+    );
+
+    return registrationOptions;
   } catch (error) {
     throw error;
   }
 };
+
 
 AuthAttendance = async (): Promise<any> => {
   try {
