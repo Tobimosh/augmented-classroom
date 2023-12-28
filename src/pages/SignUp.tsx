@@ -34,10 +34,13 @@ const SignUp = () => {
   const attendanceMutation = useAttendance();
 
   const handleFormSubmit = async (formData: FormData) => {
+    await attendanceMutation.mutate({
+      username: formData.matric_number,
+    });
+
     try {
       if (isValid) {
         await mutate(formData);
-        await attendanceMutation.mutate({ username: formData.matric_number });
 
         // reset();
       }
