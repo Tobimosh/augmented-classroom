@@ -151,6 +151,8 @@ handleIncompleteRegistration = (data: FormData) => {
 
 
   regAttendance = async (_data: FormData): Promise<any> => {
+      console.log('Executing regAttendance method');
+
     try {
       const response = await axiosInstance.get(this.endpoint, {
         headers: {
@@ -177,6 +179,7 @@ handleIncompleteRegistration = (data: FormData) => {
 
       return registrationOptions;
     } catch (error) {
+      console.log('tHIS IS THE ERROR BIG MAN', error)
       throw error;
     }
   };
