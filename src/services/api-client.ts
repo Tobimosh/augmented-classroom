@@ -112,6 +112,31 @@ regAttendance = async (_data: T): Promise<any> => {
   }
 };
 
+AuthAttendance = async (_data: T): Promise<any> => {
+  try {
+    await axiosInstance.get(this.endpoint, {
+      headers: {
+        Authorization: this.authToken ? `Bearer ${this.authToken}` : "",
+      },
+    }).then(async (res) => {
+      const registrationOptions = JSON.parse(res.data);
+      const registrationResponse = await startAuthentication(registrationOptions);
+      await axiosInstance.post(
+        '/verify-authentication-response',
+        registrationResponse,
+        {
+          headers: {
+            Authorization: this.authToken ? `Bearer ${this.authToken}` : "",
+          },
+        }
+      );
+      return registrationOptions;
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
 
   refreshToken = () => {
     const refreshToken = localStorage.getItem("refresh_token");

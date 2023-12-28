@@ -11,6 +11,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import useAttendance from "../hooks/useAttendance";
+import useAuthAttendance from "../hooks/useAuthAttendance";
 
 const schema = z.object({
   username: z.string().min(3),
@@ -69,39 +70,42 @@ const Attendance = () => {
   //   }
   // };
   }
-  const handleAuthentication = async (formData: FieldValues) => {
-    try {
-      const response = await axios.get(
-        `https://augmented-classroom.onrender.com/generate-authentication-options?matric_number=${formData.username}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-        }
-      );
 
-      const authenticationOptions = JSON.parse(response.data);
-      console.log(authenticationOptions);
-      setData(authenticationOptions);
+  const authAttendance = useAuthAttendance()
+  const handleAuthentication = async (formData: AttendanceData) => {
+    authAttendance.mutate(formData)
+    // try {
+    //   const response = await axios.get(
+    //     `https://augmented-classroom.onrender.com/generate-authentication-options?matric_number=${formData.username}`,
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    //       },
+    //     }
+    //   );
 
-      const authenticationResponse = await startAuthentication(
-        authenticationOptions
-      );
-      console.log(authenticationResponse);
+    //   const authenticationOptions = JSON.parse(response.data);
+    //   console.log(authenticationOptions);
+    //   setData(authenticationOptions);
 
-      await axios.post(
-        `https://augmented-classroom.onrender.com/verify-authentication-response?matric_number=${formData.username}`,
-        authenticationResponse, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('access_token')}`
-          }
-        }
-      );
+    //   const authenticationResponse = await startAuthentication(
+    //     authenticationOptions
+    //   );
+    //   console.log(authenticationResponse);
 
-      reset();
-    } catch (err: any) {
-      setError(err.message);
-    }
+    //   await axios.post(
+    //     `https://augmented-classroom.onrender.com/verify-authentication-response?matric_number=${formData.username}`,
+    //     authenticationResponse, {
+    //       headers: {
+    //         Authorization: `Bearer ${localStorage.getItem('access_token')}`
+    //       }
+    //     }
+    //   );
+
+    //   reset();
+    // } catch (err: any) {
+    //   setError(err.message);
+    // }
   };
 
   useEffect(() => {}, []);
@@ -149,7 +153,7 @@ const Attendance = () => {
             </button>
             <button
               type="submit"
-              onClick={handleAuthentication}
+              onClick={() => handleAuthentication}
               className="bg-red-200 rounded-lg px-4 py-3"
             >
               Authenticate
