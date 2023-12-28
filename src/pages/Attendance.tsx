@@ -1,16 +1,10 @@
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  startAuthentication,
-  startRegistration,
-} from "@simplewebauthn/browser";
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-import useAttendance from "../hooks/useAttendance";
 import useAuthAttendance from "../hooks/useAuthAttendance";
 
 const schema = z.object({
@@ -36,76 +30,12 @@ const Attendance = () => {
   const handleFormSubmit = async (formData: AttendanceData) => {
     console.log(formData);
   //  await attendanceMutation.mutate(formData)
-
-
-  //   try {
-  //     const response = await axios.get(
-  //       `https://augmented-classroom.onrender.com/generate-registration-options?matric_number=${formData.username}`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-  //         },
-  //       }
-  //     );
-
-  //     const registrationOptions = JSON.parse(response.data);
-  //     console.log(registrationOptions);
-  //     setData(registrationOptions);
-
-  //     const registrationResponse = await startRegistration(registrationOptions);
-  //     console.log(registrationResponse);
-
-  //     await axios.post(
-  //       `https://augmented-classroom.onrender.com/verify-registration-response?matric_number=${formData.username}`,
-  //       registrationResponse, {
-  //         headers: {
-  //           Authorization: `Bearer ${localStorage.getItem('access_token')}`
-  //         }
-  //       }
-  //     );
-
-  //     reset();
-  //   } catch (err: any) {
-  //     setError(err.message);
-  //   }
-  // };
   }
 
   const authAttendance = useAuthAttendance()
   const handleAuthentication = async () => {
     authAttendance.mutate()
-    // try {
-    //   const response = await axios.get(
-    //     `https://augmented-classroom.onrender.com/generate-authentication-options?matric_number=${formData.username}`,
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-    //       },
-    //     }
-    //   );
-
-    //   const authenticationOptions = JSON.parse(response.data);
-    //   console.log(authenticationOptions);
-    //   setData(authenticationOptions);
-
-    //   const authenticationResponse = await startAuthentication(
-    //     authenticationOptions
-    //   );
-    //   console.log(authenticationResponse);
-
-    //   await axios.post(
-    //     `https://augmented-classroom.onrender.com/verify-authentication-response?matric_number=${formData.username}`,
-    //     authenticationResponse, {
-    //       headers: {
-    //         Authorization: `Bearer ${localStorage.getItem('access_token')}`
-    //       }
-    //     }
-    //   );
-
-    //   reset();
-    // } catch (err: any) {
-    //   setError(err.message);
-    // }
+    
   };
 
   useEffect(() => {}, []);

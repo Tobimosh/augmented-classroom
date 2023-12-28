@@ -1,8 +1,8 @@
 import { useMutation } from "react-query";
-import APIClient from "../services/api-client";
-import { json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ToastOptions, toast } from "react-toastify";
 import { FormData } from "../pages/Login";
+import APIClient from "../services/api-client";
 
 export const apiClient = new APIClient("/verify-student");
 

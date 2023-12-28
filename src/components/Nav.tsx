@@ -1,6 +1,3 @@
-
-
-
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import GridViewIcon from "@mui/icons-material/GridView";
 import PersonIcon from "@mui/icons-material/Person";
@@ -8,6 +5,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useStudentDetailsStore from "../store/useStudentDetails";
 import Logo from "./Logo";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+
 
 interface Props {
   children: React.ReactNode;
@@ -29,11 +28,12 @@ const Nav = ({ children }: Props) => {
 
         <div className="relative">
           <button
-            className="cursor-pointer flex items-center space-x-2"
+            className="cursor-pointer flex items-center space-x-0.5"
             onClick={() => setShowDropdown(!showDropdown)}
           >
             <PersonIcon />
             <span>{studentDetails.matric_number}</span>
+            <ArrowDropDownIcon/>
           </button>
 
           {showDropdown && (
