@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
 import { useRegister } from "../hooks/useRegister";
 import useAttendance from "../hooks/useAttendance";
+import Logo from "../components/Logo";
 
 const schema = z.object({
   matric_number: z
@@ -57,12 +58,7 @@ const SignUp = () => {
       <ToastContainer />
 
       <div className="flex flex-col items-center min-h-screen">
-        <div className="flex items-center">
-          <img className="mb-8 mt-8" width={100} src="/bulb.png" alt="" />
-          <span className="lg:text-3xl text-xl boldPoppins text-blue-500">
-            VirtuLearn
-          </span>
-        </div>
+        <Logo width={100}/>
         <form
           onSubmit={handleSubmit(handleFormSubmit)}
           className="p-7 w-full max-w-xl poppins"

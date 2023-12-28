@@ -9,6 +9,7 @@ import { z } from "zod";
 import StudentContext from "../context/studentContext";
 import { useLogin } from "../hooks/useLogin";
 import useStudentDetailsStore, { StudentDetails } from "../store/useStudentDetails";
+import Logo from "../components/Logo";
 
 const schema = z.object({
   matric_number: z
@@ -35,21 +36,14 @@ const Login = () => {
   localStorage.setItem("isLoggedIn", "false");
   const {setUserDetails, studentDetails} = useStudentDetailsStore();
 
-  const { dispatch } = useContext(StudentContext);
 
   const handleFormSubmit = async (formData: FormData) => {
     try {
       if (isValid) {
         await mutate(formData);
-        // dispatch({
-        //   type: "SET_MATRIC_NUMBER",
-        //   payload: formData.matric_number,
-        // });
-        // dispatch({ type: "SET_PASSWORD", payload: formData.password });
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem('studentDetails', JSON.stringify(formData))
         setUserDetails(formData as StudentDetails)
-        console.log(studentDetails)
       }
     } catch (error) {
       localStorage.setItem("isLoggedIn", "false");
@@ -68,12 +62,7 @@ const Login = () => {
     <>
       <ToastContainer />
       <div className="flex  flex-col items-center  min-h-screen">
-        <div className="flex items-center">
-          <img className="mb-8 mt-8" width={100} src="/bulb.png" alt="" />
-          <span className="lg:text-3xl text-xl boldPoppins text-blue-500">
-            VirtuLearn
-          </span>
-        </div>
+        <Logo width={100}/>
         <form
           onSubmit={handleSubmit(handleFormSubmit)}
           className="p-7 w-full max-w-xl poppins"

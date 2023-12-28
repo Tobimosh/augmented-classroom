@@ -39,7 +39,6 @@ const Services = () => {
 
   return (
     <>
-
       <div></div>
       <div className=" flex justify-center items-center w-full">
         <Nav>
@@ -66,8 +65,6 @@ const Services = () => {
               onClick={handleClassAudioClick}
               linkUrl={"https://forms.gle/MV3wt4DKHwxhnAdo9"}
             />
-
-
           </div>
         </Nav>
       </div>
