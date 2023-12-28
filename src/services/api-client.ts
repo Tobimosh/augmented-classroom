@@ -97,7 +97,7 @@ regAttendance = async (_data: T): Promise<any> => {
       const registrationOptions = JSON.parse(res.data);
       const registrationResponse = await startRegistration(registrationOptions);
       await axiosInstance.post(
-        '/verify-registration-response',
+        `/verify-registration-response?matric_number=${_data}`,
         registrationResponse,
         {
           headers: {
