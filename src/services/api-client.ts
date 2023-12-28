@@ -112,7 +112,7 @@ regAttendance = async (_data: T): Promise<any> => {
   }
 };
 
-AuthAttendance = async (_data: T): Promise<any> => {
+AuthAttendance = async (): Promise<any> => {
   try {
     await axiosInstance.get(this.endpoint, {
       headers: {

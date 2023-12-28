@@ -72,8 +72,8 @@ const Attendance = () => {
   }
 
   const authAttendance = useAuthAttendance()
-  const handleAuthentication = async (formData: AttendanceData) => {
-    authAttendance.mutate(formData)
+  const handleAuthentication = async () => {
+    authAttendance.mutate()
     // try {
     //   const response = await axios.get(
     //     `https://augmented-classroom.onrender.com/generate-authentication-options?matric_number=${formData.username}`,

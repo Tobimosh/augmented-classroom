@@ -6,7 +6,7 @@ const apiClient = new APIClient<AttendanceData>(
   "/generate-authentication-options"
 );
 
-const submitForm = (data: AttendanceData) => {
+const submitForm = () => {
   // const authToken = localStorage.getItem("access_token");
     const authToken = import.meta.env.VITE_APP_BEARER_TOKEN; 
 
@@ -17,7 +17,7 @@ const submitForm = (data: AttendanceData) => {
 
   apiClient.setBearerToken(authToken);
 
-  return apiClient.AuthAttendance(data);
+  return apiClient.AuthAttendance();
 };
 
 const useAuthAttendance = () => {
