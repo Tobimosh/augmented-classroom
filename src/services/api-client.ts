@@ -63,39 +63,92 @@ class APIClient<T> {
       });
   };
 
+  // login = (data: T) => {
+  //   return axiosInstance
+  //     .post(this.endpoint, data)
+  //     .then((res) => {
+  //       if (res.status === 200) {
+  //         const { access_token, token_type, refresh_token } = res.data;
+  //         this.setBearerToken(access_token);
+  //         toast.success("Login Successful", toastStyle);
+
+  //         localStorage.setItem("access_token", access_token);
+  //         localStorage.setItem("refresh_token", refresh_token);
+
+  //         return { access_token, token_type, refresh_token };
+  //       } else {
+  //         return Promise.reject("Login failed");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       if (error.response && error.response.status === 401) {
+  //         toast.error("Wrong Matric number or password", toastStyle);
+  //       } 
+  //       if (error.response && error.response.status === 403) {
+  //         toast.error(
+  //           "Sorry, your sign up process was incomplete, please register your attendance and try again",
+  //           toastStyle
+  //         );
+
+  //         this.regAttendance(data as FormData);
+
+  //         // return this.login(data);
+  //       }
+  //       throw error;
+  //     });
+  // };
+
   login = (data: T) => {
-    return axiosInstance
-      .post(this.endpoint, data)
-      .then((res) => {
-        if (res.status === 200) {
-          const { access_token, token_type, refresh_token } = res.data;
-          this.setBearerToken(access_token);
-          toast.success("Login Successful", toastStyle);
+  return axiosInstance
+    .post(this.endpoint, data)
+    .then((res) => {
+      if (res.status === 200) {
+        const { access_token, token_type, refresh_token } = res.data;
+        this.setBearerToken(access_token);
+        toast.success("Login Successful", toastStyle);
 
-          localStorage.setItem("access_token", access_token);
-          localStorage.setItem("refresh_token", refresh_token);
+        localStorage.setItem("access_token", access_token);
+        localStorage.setItem("refresh_token", refresh_token);
 
-          return { access_token, token_type, refresh_token };
-        } else {
-          return Promise.reject("Login failed");
-        }
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 401) {
-          toast.error("Wrong Matric number or password", toastStyle);
-        } else if (error.response && error.response.status === 403) {
+        // Check if registration is needed
+        if (res.headers['x-registration-status'] === 'incomplete') {
           toast.error(
             "Sorry, your sign up process was incomplete, please register your attendance and try again",
             toastStyle
           );
 
-          this.regAttendance(data as FormData);
-
-          // return this.login(data);
+          // Handle registration separately
+          return this.handleIncompleteRegistration(data as FormData);
         }
-        throw error;
-      });
-  };
+
+        return { access_token, token_type, refresh_token };
+      } else {
+        return Promise.reject("Login failed");
+      }
+    })
+    .catch((error) => {
+      if (error.response && error.response.status === 401) {
+        toast.error("Wrong Matric number or password", toastStyle);
+      }
+
+      throw error;
+    });
+};
+
+// Separate function to handle incomplete registration
+handleIncompleteRegistration = (data: FormData) => {
+  return this.regAttendance(data)
+    .then((registrationOptions) => {
+      // Perform additional steps if needed after successful registration
+      return registrationOptions;
+    })
+    .catch((error) => {
+      // Handle registration errors appropriately
+      console.error("Error during registration:", error);
+      throw error;
+    });
+};
+
 
   regAttendance = async (_data: FormData): Promise<any> => {
     try {
