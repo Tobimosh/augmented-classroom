@@ -31,10 +31,11 @@ const Attendance = () => {
   // const [loading, setLoading] = useState(false);
 
 
-   const {data, error, isLoading }= useAttendance();
-  const handleFormSubmit = async (formData: FieldValues) => {
+   const attendanceMutation = useAttendance();
+  const handleFormSubmit = async (formData: AttendanceData) => {
     console.log(formData);
-    
+   await attendanceMutation.mutate(formData)
+
 
   //   try {
   //     const response = await axios.get(

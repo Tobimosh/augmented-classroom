@@ -6,6 +6,7 @@ import {
   startAuthentication,
   startRegistration,
 } from "@simplewebauthn/browser";
+import { AttendanceData } from "../pages/Attendance";
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
@@ -33,6 +34,8 @@ class APIClient<T> {
 
   setBearerToken(token: string) {
     this.authToken = token;
+    // axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
   }
 
   register = (data: T) => {
@@ -84,25 +87,19 @@ class APIClient<T> {
       });
   };
 
-  regAttendance = async () => {
-    try {
-      const response = await axiosInstance.get(
-        this.endpoint,
-        {
-          headers: {
-            Authorization: this.authToken ? `Bearer ${this.authToken}` : "",
-          },
-        }
-      );
-
-      const registrationOptions = JSON.parse(response.data);
-      console.log(registrationOptions);
-
+regAttendance = async (_data: T): Promise<any> => {
+  try {
+    const response = await axiosInstance.get(this.endpoint, {
+      headers: {
+        Authorization: this.authToken ? `Bearer ${this.authToken}` : "",
+      },
+    }).then(async (res) => {
+      const registrationOptions = JSON.parse(res.data);
+      console.log(registrationOptions)
       const registrationResponse = await startRegistration(registrationOptions);
-      console.log(registrationResponse);
-
+      console.log(registrationResponse)
       await axiosInstance.post(
-        `${this.endpoint}/verify-registration-response`,
+        '/verify-registration-response',
         registrationResponse,
         {
           headers: {
@@ -111,10 +108,12 @@ class APIClient<T> {
         }
       );
       return registrationOptions;
-    } catch (error) {
-      throw error;
-    }
-  };
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
 
   refreshToken = () => {
     const refreshToken = localStorage.getItem("refresh_token");
