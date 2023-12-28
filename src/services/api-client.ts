@@ -89,15 +89,13 @@ class APIClient<T> {
 
 regAttendance = async (_data: T): Promise<any> => {
   try {
-    const response = await axiosInstance.get(this.endpoint, {
+    await axiosInstance.get(this.endpoint, {
       headers: {
         Authorization: this.authToken ? `Bearer ${this.authToken}` : "",
       },
     }).then(async (res) => {
       const registrationOptions = JSON.parse(res.data);
-      console.log(registrationOptions)
       const registrationResponse = await startRegistration(registrationOptions);
-      console.log(registrationResponse)
       await axiosInstance.post(
         '/verify-registration-response',
         registrationResponse,

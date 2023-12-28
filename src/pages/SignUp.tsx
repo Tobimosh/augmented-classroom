@@ -6,14 +6,15 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
 import { useRegister } from "../hooks/useRegister";
+import useAttendance from "../hooks/useAttendance";
 
 const schema = z.object({
   matric_number: z
     .string()
     .min(9, { message: "Matric number must be at least 9 characters" }),
-    // .max(10, {
-    //   message: "Matric number should not be more than 10 characters",
-    // }),
+  // .max(10, {
+  //   message: "Matric number should not be more than 10 characters",
+  // }),
   password: z
     .string()
     .min(7, { message: "Password must contain at least 7 characters" }),
@@ -29,15 +30,15 @@ const SignUp = () => {
     reset,
   } = useForm<FormData>({ resolver: zodResolver(schema), mode: "onBlur" });
 
-  
-
   const { mutate, isLoading } = useRegister();
-
+  const attendanceMutation = useAttendance();
 
   const handleFormSubmit = async (formData: FormData) => {
     try {
       if (isValid) {
         await mutate(formData);
+        await attendanceMutation.mutate({ username: formData.matric_number });
+
         // reset();
       }
       // if(!isLoading){
