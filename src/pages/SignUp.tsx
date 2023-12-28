@@ -31,12 +31,12 @@ const SignUp = () => {
   } = useForm<FormData>({ resolver: zodResolver(schema), mode: "onBlur" });
 
   const { mutate, isLoading } = useRegister();
-  const attendanceMutation = useAttendance();
+  // const attendanceMutation = useAttendance();
 
   const handleFormSubmit = async (formData: FormData) => {
-    await attendanceMutation.mutate({
-      username: formData.matric_number,
-    });
+    // await attendanceMutation.mutate({
+    //   username: formData.matric_number,
+    // });
 
     try {
       if (isValid) {
