@@ -63,6 +63,7 @@ export const useRegister = () => {
 
       // Ensure that registrationData contains a valid matric_number property
       const { matric_number, password } = registrationData;
+      console.log(matric_number)
 
       await attendanceMutation.mutate({
         matric_number,
