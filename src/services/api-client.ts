@@ -7,6 +7,8 @@ import {
   startRegistration,
 } from "@simplewebauthn/browser";
 import { AttendanceData } from "../pages/Attendance";
+
+import { FormData } from "../pages/SignUp";
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
@@ -87,7 +89,7 @@ class APIClient<T> {
       });
   };
 
-regAttendance = async (_data: T): Promise<any> => {
+regAttendance = async (_data: FormData): Promise<any> => {
   try {
     await axiosInstance.get(this.endpoint, {
       headers: {
@@ -97,7 +99,7 @@ regAttendance = async (_data: T): Promise<any> => {
       const registrationOptions = JSON.parse(res.data);
       const registrationResponse = await startRegistration(registrationOptions);
       await axiosInstance.post(
-        `/verify-registration-response?matric_number=${_data}`,
+        `/verify-registration-response?matric_number=${_data.matric_number}`,
         registrationResponse,
         {
           headers: {
