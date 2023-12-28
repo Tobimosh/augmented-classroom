@@ -1,7 +1,5 @@
 import { useMutation } from "react-query";
 import APIClient from "../services/api-client";
-import { AttendanceData } from "../pages/Attendance";
-import useStudentDetailsStore from "../store/useStudentDetails";
 
 import { FormData } from "../pages/SignUp";
 
