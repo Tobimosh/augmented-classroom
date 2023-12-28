@@ -40,9 +40,9 @@ export const useRegister = () => {
     onError: (error) => console.log(error),
     onSuccess: async (data) => {
       toast.success("Registration Successful, please log in", toastStyle);
-      await attendanceMutation.mutate({
-        username: data.matric_number,
-      });
+      await attendanceMutation.mutate(
+       data
+      );
       setTimeout(() => {
         navigate("/log-in");
       }, 3000);

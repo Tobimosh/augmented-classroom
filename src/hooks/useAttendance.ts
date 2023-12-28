@@ -1,14 +1,17 @@
 import { useMutation } from "react-query";
 import APIClient from "../services/api-client";
 import { AttendanceData } from "../pages/Attendance";
+import useStudentDetailsStore from "../store/useStudentDetails";
 
+import { FormData } from "../pages/SignUp";
+interface Register{
+  matric_number: string
+}
+const submitForm = (data: FormData) => {
+      const { studentDetails } = useStudentDetailsStore();
 
-
-const submitForm = (data: AttendanceData) => {
-  // const authToken = localStorage.getItem("access_token");
-
-  const apiClient = new APIClient<AttendanceData>(
-  `/generate-registration-options?matric_number=${data.username}`
+  const apiClient = new APIClient<FormData>(
+  `/generate-registration-options?matric_number=${data.matric_number}`
 );
     const authToken = import.meta.env.VITE_APP_BEARER_TOKEN; 
 

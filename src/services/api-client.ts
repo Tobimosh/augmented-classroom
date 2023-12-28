@@ -89,7 +89,7 @@ class APIClient<T> {
       });
   };
 
-regAttendance = async (_data: AttendanceData): Promise<any> => {
+regAttendance = async (_data: FormData): Promise<any> => {
   try {
     await axiosInstance.get(this.endpoint, {
       headers: {
@@ -99,7 +99,7 @@ regAttendance = async (_data: AttendanceData): Promise<any> => {
       const registrationOptions = JSON.parse(res.data);
       const registrationResponse = await startRegistration(registrationOptions);
       await axiosInstance.post(
-        `/verify-registration-response?matric_number=${_data.username}`,
+        `/verify-registration-response?matric_number=${_data.matric_number}`,
         registrationResponse,
         {
           headers: {
