@@ -155,6 +155,7 @@ class APIClient<T> {
               },
             }
           );
+          toast.success('Verified, thank you', toastStyle)
           return registrationOptions;
         });
     } catch (error) {
