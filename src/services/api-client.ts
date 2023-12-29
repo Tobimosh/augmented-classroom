@@ -89,7 +89,6 @@ class APIClient<T> {
             toastStyle
           );
           this.setBearerToken(
-            localStorage.getItem("access_token") ||
               import.meta.env.VITE_APP_BEARER_TOKEN
           );
           this.regAttendance(data as FormData);
