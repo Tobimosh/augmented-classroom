@@ -39,9 +39,8 @@ export const useRegister = () => {
     mutationFn: submitForm,
     onError: (error) => console.log(error),
     onSuccess: (data) => {
-      console.log("Registration Data:", data);
 
-      toast.success("Registration Successful, please log in", toastStyle);
+      toast.success("Registration Successful, please register your attendance to complete the sign up process", toastStyle);
 
       const { matric_number, password } = data;
 
