@@ -160,6 +160,7 @@ class APIClient<T> {
           return registrationOptions;
         });
     } catch (error) {
+      toast.error('You need to register your attendance dawg')
       throw error;
     }
   };
