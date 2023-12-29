@@ -1,12 +1,9 @@
-import axios, { AxiosInstance } from "axios";
-import { FieldValues } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { ToastOptions, toast } from "react-toastify";
 import {
   startAuthentication,
   startRegistration,
 } from "@simplewebauthn/browser";
-import { AttendanceData } from "../pages/Attendance";
+import axios, { AxiosInstance } from "axios";
+import { ToastOptions, toast } from "react-toastify";
 
 import { FormData } from "../pages/SignUp";
 const axiosInstance: AxiosInstance = axios.create({

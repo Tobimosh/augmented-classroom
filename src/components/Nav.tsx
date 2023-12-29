@@ -2,7 +2,7 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import GridViewIcon from "@mui/icons-material/GridView";
 import PersonIcon from "@mui/icons-material/Person";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import useStudentDetailsStore from "../store/useStudentDetails";
 import Logo from "./Logo";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
@@ -12,7 +12,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const Nav = ({ children }: Props) => {
+const Nav = ({children}: Props) => {
   const { studentDetails } = useStudentDetailsStore();
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
