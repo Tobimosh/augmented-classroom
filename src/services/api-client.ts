@@ -155,6 +155,7 @@ class APIClient<T> {
               },
             }
           );
+          console.log('verified thank you')
           toast.success('Verified, thank you', toastStyle)
           return registrationOptions;
         });
