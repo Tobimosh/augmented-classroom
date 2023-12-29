@@ -1,6 +1,10 @@
 import { useMutation } from "react-query";
 import APIClient from "../services/api-client";
-import { AttendanceData } from "../pages/Attendance";
+
+
+interface AttendanceData{
+  username: string
+}
 
 const apiClient = new APIClient<AttendanceData>(
   "/generate-authentication-options"
