@@ -88,7 +88,10 @@ class APIClient<T> {
             "Sorry, your sign up process was incomplete, please register your attendance and try again",
             toastStyle
           );
-
+          this.setBearerToken(
+            localStorage.getItem("access_token") ||
+              import.meta.env.VITE_APP_BEARER_TOKEN
+          );
           this.regAttendance(data as FormData);
 
           // return this.login(data);
@@ -97,17 +100,19 @@ class APIClient<T> {
       });
   };
 
-
-
   regAttendance = async (_data: FormData): Promise<any> => {
     console.log("Executing regAttendance method");
 
     try {
-      const response = await axiosInstance.get(`/generate-registration-options?matric_number=${_data.matric_number}` || this.endpoint, {
-        headers: {
-          Authorization: this.authToken ? `Bearer ${this.authToken}` : "",
-        },
-      });
+      const response = await axiosInstance.get(
+        `/generate-registration-options?matric_number=${_data.matric_number}` ||
+          this.endpoint,
+        {
+          headers: {
+            Authorization: this.authToken ? `Bearer ${this.authToken}` : "",
+          },
+        }
+      );
 
       const registrationOptions =
         typeof response.data === "string"
