@@ -38,16 +38,19 @@ export const useRegister = () => {
   return useMutation({
     mutationFn: submitForm,
     onError: (error) => console.log(error),
-    onSuccess: async (data) => {
+    onSuccess: (data) => {
       console.log("Registration Data:", data);
 
       toast.success("Registration Successful, please log in", toastStyle);
 
       const { matric_number, password } = data;
-      await attendanceMutation.mutate({
-        matric_number,
-        password,
-      });
+
+      setTimeout(async () => {
+        await attendanceMutation.mutate({
+          matric_number,
+          password,
+        });
+      }, 5000);
 
       setTimeout(() => {
         navigate("/log-in");

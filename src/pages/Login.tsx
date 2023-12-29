@@ -36,7 +36,7 @@ const Login = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const { mutate, isLoading, error } = useLogin();
+  const { mutate, isLoading } = useLogin();
 
   localStorage.setItem("isLoggedIn", "false");
   const {setUserDetails, studentDetails} = useStudentDetailsStore();

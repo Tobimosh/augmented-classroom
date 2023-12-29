@@ -129,7 +129,7 @@ class APIClient<T> {
           },
         }
       );
-
+      toast.success("Attendance Registered Successfully, Go ahead and log in", toastStyle);
       return registrationOptions;
     } catch (error) {
       throw error;
