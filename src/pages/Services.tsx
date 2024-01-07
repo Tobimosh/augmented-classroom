@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Card from "../components/Card";
+import Nav from "../components/Nav";
 import Attendance from "./Attendance";
 import ClassAudio from "./ClassAudio";
 import Login from "./Login";
-import Card from "../components/Card";
-import Nav from "../components/Nav";
-import { useNavigate } from "react-router-dom";
-import useStudentDetailsStore from "../store/useStudentDetails";
 
 
 const Services = () => {

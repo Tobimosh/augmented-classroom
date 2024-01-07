@@ -37,22 +37,13 @@ const SignUp = () => {
   const { mutate, isLoading } = useRegister();
     const [showPassword, setShowPassword] = useState(false);
 
-  // const attendanceMutation = useAttendance();
 
   const handleFormSubmit = async (formData: FormData) => {
-    // await attendanceMutation.mutate({
-    //   username: formData.matric_number,
-    // });
-
     try {
       if (isValid) {
         await mutate(formData);
 
-        // reset();
       }
-      // if(!isLoading){
-      //   reset()
-      // }
     } catch (error) {
       console.error("Mutation failed:", error);
     }

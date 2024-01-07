@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import useAuthAttendance from "../hooks/useAuthAttendance";
 import { useState } from "react";
-import RiseLoader from "react-spinners/RiseLoader";
+import HashLoader from "react-spinners/HashLoader";
 
 
 const Attendance = () => {
@@ -51,10 +51,10 @@ const Attendance = () => {
           >
             {authAttendance.isLoading ? (
               <>
-                <RiseLoader
+                <HashLoader
                   color="#ffff"
                   loading={authAttendance.isLoading}
-                  size={5}
+                  size={20}
                   aria-label="Loading Spinner"
                   data-testid="loader"
                 />
